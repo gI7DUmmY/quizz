@@ -1,0 +1,68 @@
+<template>
+  <h1>Voici vos {{ qtte }} questions</h1>
+  <div v-if="qcm">
+    <form @submit.prevent="score">
+      <div v-for="(question, index) in randQuizz" :key="index">
+          <p>
+            Question #{{ index + 1 }} :<br />
+            {{ question.sujet }}
+            <ul>
+              <li v-for="reponse in question.choix" :key="reponse.id">
+                <label :for="reponse.id">{{ reponse.texte }}</label>
+                <input type="checkbox" :value="reponse" v-model="valeurs">
+              </li>
+            </ul>
+          </p>
+      </div>
+      <div><button type="submit">Résultat</button></div>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Questions',
+  props: ['qtte'],
+  data: () => ({
+    qcm: null,
+    randQuizz: [],
+    valeurs: [],
+    resultat: 0
+  }),
+  methods: {
+    score () {
+      if (this.valeurs) {
+        this.valeurs.forEach(element => {
+          this.resultat += element.note
+        });
+      }
+      console.log('Votre score est de ' + this.resultat)
+      this.resultat = 0
+    }
+  },
+  mounted () {
+    fetch("http://localhost:3000/quizz")
+      .then(res => res.json())
+      .then(data => {
+        this.qcm = data
+        let i = 0
+        let random = Math.floor(Math.random() * Math.floor(this.qcm.length))
+
+        do {
+          if(!this.randQuizz.includes(this.qcm[random])) {
+            this.randQuizz.push(this.qcm[random])
+            i++
+          }
+          random = Math.floor(Math.random() * Math.floor(this.qcm.length))
+        } while (i < this.qtte)
+      })
+      .catch(err => console.log(err.message))
+  }
+}
+</script>
+
+<style>
+ul {
+  list-style: none;
+}
+</style>

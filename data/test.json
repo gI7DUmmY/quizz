@@ -1,0 +1,44 @@
+{
+  "quizz": [
+    {
+      "sujet": "sujet 1",
+      "choix": [
+        { "id": "1a", "texte": "réponse 1A", "note": 1 },
+        { "id": "1b", "texte": "réponse 1B", "note": 0 },
+        { "id": "1c", "texte": "réponse 1C", "note": 2 }
+      ]
+    },
+    {
+      "sujet": "sujet 2",
+      "choix": [
+        { "id": "2a", "texte": "réponse 2A", "note": 1 },
+        { "id": "2b", "texte": "réponse 2B", "note": 0 },
+        { "id": "2c", "texte": "réponse 2C", "note": 2 }
+      ]
+    },
+    {
+      "sujet": "sujet 3",
+      "choix": [
+        { "id": "3a", "texte": "réponse 3A", "note": 1 },
+        { "id": "3b", "texte": "réponse 3B", "note": 0 },
+        { "id": "3c", "texte": "réponse 3C", "note": 2 }
+      ]
+    },
+    {
+      "sujet": "sujet 4",
+      "choix": [
+        { "id": "4a", "texte": "réponse 4A", "note": 1 },
+        { "id": "4b", "texte": "réponse 4B", "note": 0 },
+        { "id": "4c", "texte": "réponse 4C", "note": 2 }
+      ]
+    },
+    {
+      "sujet": "sujet 5",
+      "choix": [
+        { "id": "5a", "texte": "réponse 5A", "note": 1 },
+        { "id": "5b", "texte": "réponse 5B", "note": 0 },
+        { "id": "5c", "texte": "réponse 5C", "note": 2 }
+      ]
+    }
+  ]
+}
