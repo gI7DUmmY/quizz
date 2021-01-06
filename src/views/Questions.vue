@@ -3,7 +3,7 @@
   <div v-if="qcm">
     <form @submit.prevent="score">
       <div v-for="(question, index) in randQuizz" :key="index">
-          <p>
+          <p v-show="current === index">
             Question #{{ index + 1 }} :<br />
             {{ question.sujet }}
             <ul>
@@ -12,6 +12,8 @@
                 <input type="checkbox" :value="reponse" v-model="valeurs">
               </li>
             </ul>
+            <button type="button" @click="prev" :disabled="current === 0">Précédent</button>
+            <button type="button" @click="next" :disabled="current === qtte-1">Suivant</button>
           </p>
       </div>
       <div><button type="submit">Résultat</button></div>
@@ -20,6 +22,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'Questions',
   props: ['qtte'],
@@ -27,7 +30,8 @@ export default {
     qcm: null,
     randQuizz: [],
     valeurs: [],
-    resultat: 0
+    resultat: 0,
+    current: 0
   }),
   methods: {
     score () {
@@ -37,6 +41,24 @@ export default {
         });
       }
       console.log('Votre score est de ' + this.resultat)
+      this.resultat = 0
+    },
+    prev () {
+      if (this.valeurs && this.current > 0) {
+        this.current --
+        this.valeurs.forEach(element => {
+          this.resultat += element.note
+        });
+      }
+      this.resultat = 0
+    },
+    next () {
+      if (this.valeurs && this.current < this.qtte-1) {
+        this.current ++
+        this.valeurs.forEach(element => {
+          this.resultat += element.note
+        });
+      }
       this.resultat = 0
     }
   },
