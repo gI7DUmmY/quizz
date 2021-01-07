@@ -36,7 +36,9 @@
           <button type="submit" class="btn">Résultat</button>
         </div>
         <div v-if="joue === false">
-          <h3>Votre score est de {{ resultat }}</h3><br />
+          <h3>
+            Votre score est de<br /><span>{{ resultat }} sur {{ total }} ({{ pourcentage }}%)</span>
+          </h3>
           <button type="reset" class="btn">Rejouer</button>
         </div>
       </form>
@@ -53,6 +55,7 @@ export default {
     randQuizz: [],
     valeurs: [],
     resultat: 0,
+    pourcentage: 0,
     current: 0,
     joue: true
   }),
@@ -62,6 +65,7 @@ export default {
         this.valeurs.forEach(element => {
           this.resultat += element.note
         });
+        this.pourcentage = this.resultat * 100 / this.total
       }
       this.joue = false
     },
@@ -104,6 +108,17 @@ export default {
         } while (i < this.qtte)
       })
       .catch(err => console.log(err.message))
+  },
+  computed: {
+    total () {
+      let total = 0
+      this.randQuizz.forEach(question => {
+        question.choix.forEach(reponse => {
+          if (reponse.note > 0) total += reponse.note
+        })
+      })
+      return total
+    }
   }
 }
 </script>
