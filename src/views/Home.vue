@@ -1,13 +1,15 @@
 <template>
-  <h1>Quizz du règlement</h1>
-  <form @submit.prevent="submit" v-if="qcm">
-    <h2>Choisissez les réglages</h2>
-    <label for="nbQuestions">Nombre de Questions</label>
-    <input type="number" v-model="qtte" :max="qcm.length" required>
+  <div class="container">
+    <h1 class="center-align">Quizz du règlement</h1>
+    <form @submit.prevent="submit" v-if="qcm">
+      <h4>Choisissez les réglages</h4>
+      <label>Nombre de Questions</label>
+      <input type="number" v-model="qtte" min="1" :max="qcm.length" required>
 
-    <button type="submit">Démarrer</button>
-  </form>
-  <p v-if="qtte">Vous avez choisi {{ qtte }} questions</p>
+      <p v-if="qtte">Vous avez choisi {{ qtte }} question(s) au hasard</p>
+      <button type="submit" class="btn">Démarrer</button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -32,3 +34,10 @@ export default {
   }
 }
 </script>
+
+<style>
+form {
+  max-width: 400px;
+  margin: 5em auto;
+}
+</style>

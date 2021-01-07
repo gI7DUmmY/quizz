@@ -1,34 +1,50 @@
 <template>
-  <div v-if="qcm">
-    <form @submit.prevent="score" @reset.prevent="rejouer">
-      <div v-if="joue">
-        <h1>Voici vos {{ qtte }} questions</h1>
-        <div v-for="(question, index) in randQuizz" :key="index">
-            <p v-show="current === index">
-              Question #{{ index + 1 }} :<br />
-              {{ question.sujet }}
-              <ul>
-                <li v-for="reponse in question.choix" :key="reponse.id">
-                  <input type="checkbox" :value="reponse" v-model="valeurs">
-                  <label :for="reponse.id">{{ reponse.texte }}</label>
-                </li>
-              </ul>
-              <button type="button" @click="prev" :disabled="current === 0">Précédent</button>
-              <button type="button" @click="next" :disabled="current === qtte-1">Suivant</button>
-            </p>
+  <div class="container">
+    <h1 class="center-align">Quizz du règlement</h1>
+    <div v-if="qcm">
+      <form @submit.prevent="score" @reset.prevent="rejouer">
+        <div v-if="joue">
+          <div v-for="(question, index) in randQuizz" :key="index">
+              <div v-show="current === index">
+                <h3>Question {{ index + 1 }} de {{ qtte }} :</h3>
+
+                <p class="sujet">{{ question.sujet }}</p>
+
+                <p v-for="reponse in question.choix" :key="reponse.id">
+                  <label>
+                    <input type="checkbox" :value="reponse" v-model="valeurs"/>
+                    <span :for="reponse.id">{{ reponse.texte }}</span>
+                  </label>
+                </p>
+
+                <a
+                  @click="prev"
+                  :class="{ disabled: current === 0 }"
+                  class="waves-effect waves-light btn-small btn-flat"
+                >
+                  <i class="material-icons left">chevron_left</i>Précédent
+                </a>
+                <a
+                  @click="next"
+                  :class="{ disabled: current === qtte-1 }"
+                  class="waves-effect waves-light btn-small btn-flat"
+                >
+                  <i class="material-icons right">chevron_right</i>Suivant
+                </a>
+              </div>
+          </div>
+          <button type="submit" class="btn">Résultat</button>
         </div>
-        <button type="submit">Résultat</button>
-      </div>
-      <div v-if="joue === false">
-        <h1>Votre score est de {{ resultat }}</h1><br />
-        <button type="reset">Rejouer</button>
-      </div>
-    </form>
+        <div v-if="joue === false">
+          <h3>Votre score est de {{ resultat }}</h3><br />
+          <button type="reset" class="btn">Rejouer</button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'Questions',
   props: ['qtte'],
@@ -93,7 +109,14 @@ export default {
 </script>
 
 <style>
-ul {
-  list-style: none;
+.sujet {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+form ul {
+  font-size: 1.5em;
+}
+button[type="submit"], button[type="reset"] {
+  margin-top: 2em;
 }
 </style>
