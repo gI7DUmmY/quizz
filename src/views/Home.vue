@@ -9,14 +9,19 @@
       <p v-if="qtte">Vous avez choisi {{ qtte }} question(s) au hasard</p>
       <button type="submit" class="btn">Démarrer</button>
     </form>
+    <div v-else>
+      <Preloader />
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import Preloader from '../components/Preloader.vue'
 
 export default {
   name: 'Home',
+  components: { 'Preloader': Preloader },
   data: () => ({
     qtte: null,
     qcm: null

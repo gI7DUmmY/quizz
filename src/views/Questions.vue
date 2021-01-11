@@ -43,13 +43,19 @@
         </div>
       </form>
     </div>
+    <div v-else>
+      <Preloader />
+    </div>
   </div>
 </template>
 
 <script>
+import Preloader from '../components/Preloader.vue'
+
 export default {
   name: 'Questions',
-  props: ['qtte'],
+  props: [ 'qtte' ],
+  components: { 'Preloader': Preloader },
   data: () => ({
     qcm: null,
     randQuizz: [],
