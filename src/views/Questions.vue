@@ -1,48 +1,52 @@
 <template>
   <div class="container">
     <h1 class="center-align">Quizz du règlement</h1>
-    <div v-if="qcm">
-      <form @submit.prevent="score" @reset.prevent="rejouer">
+    <div v-if="qcm" class="row">
+      <form @submit.prevent="score" @reset.prevent="rejouer" class="col s12">
         <div v-if="joue">
           <div v-for="(question, index) in randQuizz" :key="index">
-              <div v-show="current === index">
-                <h3>Question {{ index + 1 }} de {{ qtte }} :</h3>
-
+              <div v-show="current === index" class="card-panel blue lighten-4">
+                <h4>Question {{ index + 1 }} de {{ qtte }} :</h4>
+                <div class="divider teal accent-4"></div>
                 <p class="sujet">{{ question.sujet }}</p>
 
                 <p v-for="reponse in question.choix" :key="reponse.id">
                   <label>
-                    <input type="checkbox" :value="reponse" v-model="valeurs"/>
-                    <span :for="reponse.id">{{ reponse.texte }}</span>
+                    <input type="checkbox" class="filled-in" :value="reponse" v-model="valeurs"/>
+                    <span class="black-text reponse" :for="reponse.id">{{ reponse.texte }}</span>
                   </label>
                 </p>
+                <div class="divider teal accent-4"></div>
 
                 <a
+                  id="btn-prev"
                   @click="prev"
                   :class="{ disabled: current === 0 }"
-                  class="waves-effect waves-light btn-small btn-flat"
+                  class="waves-effect waves-light btn-small btn-flat blue lighten-3"
                 >
                   <i class="material-icons left">chevron_left</i>Précédent
                 </a>
+
                 <a
+                  id="btn-next"
                   @click="next"
                   :class="{ disabled: current === qtte-1 }"
-                  class="waves-effect waves-light btn-small btn-flat"
+                  class="waves-effect waves-light btn-small btn-flat blue lighten-3"
                 >
                   <i class="material-icons right">chevron_right</i>Suivant
                 </a>
               </div>
           </div>
-          <button type="submit" class="btn">Résultat</button>
+          <button type="submit" class="btn-large">Résultat</button>
         </div>
-        <div v-if="joue === false">
-          <h3>
-            Votre score est de<br /><span>{{ resultat }} sur {{ total }} ({{ pourcentage }}%)</span>
-          </h3>
-          <button type="reset" class="btn">Rejouer</button>
+
+        <div v-else>
+          <Resultat :resultat="resultat" :total="total" :pourcentage="pourcentage" />
+          <button type="reset" class="btn-large">Rejouer</button>
         </div>
       </form>
     </div>
+
     <div v-else>
       <Preloader />
     </div>
@@ -51,11 +55,15 @@
 
 <script>
 import Preloader from '../components/Preloader.vue'
+import Resultat from '../components/Resultat.vue'
 
 export default {
   name: 'Questions',
   props: [ 'qtte' ],
-  components: { 'Preloader': Preloader },
+  components: {
+    'Preloader': Preloader,
+    'Resultat': Resultat
+  },
   data: () => ({
     qcm: null,
     randQuizz: [],
@@ -71,7 +79,7 @@ export default {
         this.valeurs.forEach(element => {
           this.resultat += element.note
         });
-        this.pourcentage = this.resultat * 100 / this.total
+        this.pourcentage = Math.round(this.resultat * 100 / this.total)
       }
       this.joue = false
     },
@@ -131,13 +139,24 @@ export default {
 
 <style>
 .sujet {
-  font-weight: bold;
+  font-weight: 350;
   font-size: 1.5em;
 }
 form ul {
   font-size: 1.5em;
 }
+#btn-prev {
+  margin-top: 1em;
+  margin-right: 1em;
+}
+#btn-next {
+  margin-top: 1em;
+  margin-left: 1em;
+}
 button[type="submit"], button[type="reset"] {
+  display: block;
   margin-top: 2em;
+  margin-right: auto;
+  margin-left: auto;
 }
 </style>

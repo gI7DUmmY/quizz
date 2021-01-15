@@ -2,11 +2,12 @@
   <div class="container">
     <h1 class="center-align">Quizz du règlement</h1>
     <form @submit.prevent="submit" v-if="qcm">
-      <h4>Choisissez les réglages</h4>
+      <h4 class="center-align">Choisissez les réglages</h4>
+      <div class="center-align">
       <label>Nombre de Questions</label>
       <input type="number" v-model="qtte" min="1" :max="qcm.length" required>
+      </div>
 
-      <p v-if="qtte">Vous avez choisi {{ qtte }} question(s) au hasard</p>
       <button type="submit" class="btn">Démarrer</button>
     </form>
     <div v-else>
@@ -40,9 +41,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 form {
   max-width: 400px;
   margin: 5em auto;
+}
+input[type="number"] {
+  display: block;
+  width: 100px;
+  margin: 0 auto;
 }
 </style>
