@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="center-align">Quizz du règlement</h1>
+    <h2 class="center-align">Quizz du règlement</h2>
     <div v-if="qcm" class="row">
       <form @submit.prevent="score" @reset.prevent="rejouer" class="col s12">
         <div v-if="joue">
@@ -18,23 +18,29 @@
                 </p>
                 <div class="divider teal accent-4"></div>
 
-                <a
-                  id="btn-prev"
-                  @click="prev"
-                  :class="{ disabled: current === 0 }"
-                  class="waves-effect waves-light btn-small btn-flat blue lighten-3"
-                >
-                  <i class="material-icons left">chevron_left</i>Précédent
-                </a>
+                <div id=flex>
+                  <div>
+                    <a
+                      id="btn-prev"
+                      @click="prev"
+                      :class="{ disabled: current === 0 }"
+                      class="waves-effect waves-light btn-small btn-flat blue lighten-3"
+                    >
+                      <i class="material-icons left">chevron_left</i>Préc.
+                    </a>
+                  </div>
 
-                <a
-                  id="btn-next"
-                  @click="next"
-                  :class="{ disabled: current === qtte-1 }"
-                  class="waves-effect waves-light btn-small btn-flat blue lighten-3"
-                >
-                  <i class="material-icons right">chevron_right</i>Suivant
-                </a>
+                  <div>
+                    <a
+                      id="btn-next"
+                      @click="next"
+                      :class="{ disabled: current === qtte-1 }"
+                      class="waves-effect waves-light btn-small btn-flat blue lighten-3"
+                    >
+                      <i class="material-icons right">chevron_right</i>Suiv.
+                    </a>
+                  </div>
+                </div>
               </div>
           </div>
           <button type="submit" class="btn-large">Résultat</button>
@@ -145,13 +151,10 @@ export default {
 form ul {
   font-size: 1.5em;
 }
-#btn-prev {
+#flex {
   margin-top: 1em;
-  margin-right: 1em;
-}
-#btn-next {
-  margin-top: 1em;
-  margin-left: 1em;
+  display: flex;
+  justify-content: space-around;
 }
 button[type="submit"], button[type="reset"] {
   display: block;

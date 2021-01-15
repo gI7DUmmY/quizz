@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <h1 class="center-align">Quizz du règlement</h1>
+    <h2 class="center-align">Quizz du règlement</h2>
     <form @submit.prevent="submit" v-if="qcm">
       <h4 class="center-align">Choisissez les réglages</h4>
       <div class="center-align">
       <label>Nombre de Questions</label>
-      <input type="number" v-model="qtte" min="1" :max="qcm.length" required>
+      <input type="number" class="center-align" v-model="qtte" min="1" :max="qcm.length" required>
       </div>
 
-      <button type="submit" class="btn">Démarrer</button>
+      <button type="submit" class="btn-large">Démarrer</button>
     </form>
     <div v-else>
       <Preloader />
