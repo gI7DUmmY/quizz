@@ -12,7 +12,7 @@
 
                 <p v-for="reponse in question.choix" :key="reponse.id">
                   <label>
-                    <input type="checkbox" class="filled-in" :value="reponse" v-model="valeurs"/>
+                    <input type="checkbox" class="filled-in" :id="reponse.id" :value="reponse" v-model="valeurs"/>
                     <span class="black-text reponse" :for="reponse.id">{{ reponse.texte }}</span>
                   </label>
                 </p>
@@ -43,7 +43,7 @@
                 </div>
               </div>
           </div>
-          <button type="submit" class="btn-large">Résultat</button>
+          <button v-if="showSubmit || qtte == 1" type="submit" class="btn-large">Résultat</button>
         </div>
 
         <div v-else>
@@ -77,7 +77,8 @@ export default {
     resultat: 0,
     pourcentage: 0,
     current: 0,
-    joue: true
+    joue: true,
+    showSubmit: false
   }),
   methods: {
     score () {
@@ -108,6 +109,8 @@ export default {
           this.resultat += element.note
         });
       }
+
+      if (this.current === this.qtte - 1) this.showSubmit = true
       this.resultat = 0
     }
   },
