@@ -8,6 +8,8 @@
               <div v-show="current === index" class="card-panel blue lighten-4">
                 <h4>Question {{ index + 1 }} de {{ qtte }} :</h4>
                 <div class="divider teal accent-4"></div>
+
+                <p class="blue-grey-text text-lighten-2">#{{ question.id }}</p>
                 <p class="sujet">{{ question.sujet }}</p>
 
                 <p v-for="reponse in question.choix" :key="reponse.id">
