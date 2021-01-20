@@ -9,19 +9,24 @@
 
       <Tableau :qcm="filtre" />
     </div>
-    <div v-else>{{ erreur }}</div>
 
+    <div v-else>
+      <Preloader />
+    </div>
+
+    <div v-if="erreur">{{ erreur }}</div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
 import GetQcm from '../composables/GetQcm'
 import Tableau from  '../components/Tableau.vue'
-import { ref } from 'vue'
+import Preloader from '../components/Preloader.vue'
 
 export default {
   name: 'Backend',
-  components: { Tableau },
+  components: { Tableau, Preloader },
   setup () {
     const { qcm, erreur, load } = GetQcm()
     const search = ref('')
