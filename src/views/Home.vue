@@ -13,30 +13,30 @@
     <div v-else>
       <Preloader />
     </div>
+    <div v-if="erreur">{{ erreur }}</div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import { ref } from 'vue'
 import Preloader from '../components/Preloader.vue'
+import GetQcm from '../composables/GetQcm'
 
 export default {
   name: 'Home',
   components: { 'Preloader': Preloader },
-  data: () => ({
-    qtte: null,
-    qcm: null
-  }),
   methods: {
     submit () {
       this.$router.push({ name: 'Questions', params: { qtte: this.qtte }})
     }
   },
-  mounted () {
-    fetch("http://localhost:3000/quizz")
-      .then(res => res.json())
-      .then(data => this.qcm = data)
-      .catch(err => console.log(err.message))
+  setup () {
+    const { qcm, erreur, load } = GetQcm()
+    const qtte = ref(null)
+
+    load()
+
+    return { qcm, erreur, qtte }
   }
 }
 </script>

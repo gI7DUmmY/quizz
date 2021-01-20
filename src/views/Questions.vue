@@ -58,6 +58,7 @@
     <div v-else>
       <Preloader />
     </div>
+    <div v-if="erreur">{{ erreur }}</div>
   </div>
 </template>
 
@@ -80,7 +81,8 @@ export default {
     pourcentage: 0,
     current: 0,
     joue: true,
-    showSubmit: false
+    showSubmit: false,
+    erreur: null
   }),
   methods: {
     score () {
@@ -132,7 +134,7 @@ export default {
           random = Math.floor(Math.random() * Math.floor(this.qcm.length))
         } while (i < this.qtte)
       })
-      .catch(err => console.log(err.message))
+      .catch(err => this.erreur = err.message)
   },
   computed: {
     total () {
