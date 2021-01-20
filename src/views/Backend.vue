@@ -2,33 +2,12 @@
   <div class="container">
     <h1 class="center-align">Backend</h1>
     <div v-if="qcm.length">
-      <table class="highlight responsive-table">
-        <thead>
-          <tr>
-            <th>N°</th>
-            <th>Sujet</th>
-            <th class="right-align">Tags</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(question, index) in qcm" :key="index">
-            <td>#{{ question.id }}</td>
-            <td>
-              {{ question.sujet.slice(0,100) }}
-              <span v-if="question.sujet.length > 99">...</span>
-            </td>
-            <td class="right-align">
-              <div
-                v-for="(tag, index) in question.tags"
-                :key="index"
-                class="tag"
-              >
-                #{{ tag }}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="input-field">
+        <input id="tag" type="text" v-model="search">
+        <label for="tag">#Tag</label>
+      </div>
+
+      <Tableau :qcm="filtre" />
     </div>
     <div v-else>{{ erreur }}</div>
 
@@ -37,20 +16,46 @@
 
 <script>
 import GetQcm from '../composables/GetQcm'
+import Tableau from  '../components/Tableau.vue'
+import { ref } from 'vue'
 
 export default {
   name: 'Backend',
+  components: { Tableau },
   setup () {
     const { qcm, erreur, load } = GetQcm()
+    const search = ref('')
 
     load()
 
-    return { qcm, erreur }
+    return { qcm, erreur, search }
+  },
+  computed: {
+    filtre () {
+      let lesTags = ''
+      
+      if (this.search.length === 0) return this.qcm
+      else {
+        return this.qcm.filter(q => {
+          q.tags.forEach(tag => {
+            lesTags += tag
+          })
+          if (lesTags.includes(this.search)) {
+            lesTags = ''
+            return true
+          }
+          else return false
+        })
+      }
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.num {
+  font-weight: bold;
+}
 .tag{
   display: inline-block;
 }
