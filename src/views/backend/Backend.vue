@@ -20,9 +20,9 @@
 
 <script>
 import { ref } from 'vue'
-import GetQcm from '../composables/GetQcm'
-import Tableau from  '../components/Tableau.vue'
-import Preloader from '../components/Preloader.vue'
+import GetQcm from '@/composables/GetQcm'
+import Tableau from  '@/components/Tableau.vue'
+import Preloader from '@/components/Preloader.vue'
 
 export default {
   name: 'Backend',

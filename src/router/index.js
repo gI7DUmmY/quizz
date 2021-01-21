@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Questions from '../views/Questions.vue'
-import Backend from '../views/Backend.vue'
+import Backend from '../views/backend/Backend.vue'
+import Details from '../views/backend/Details.vue'
 
 const routes = [
   {
@@ -19,6 +20,12 @@ const routes = [
     path: '/backend',
     name: 'Backend',
     component: Backend,
+    props: true
+  },
+  {
+    path: '/backend/:id',
+    name: 'Details',
+    component: Details,
     props: true
   }
 ]
