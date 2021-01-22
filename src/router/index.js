@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Questions from '../views/Questions.vue'
 import Backend from '../views/backend/Backend.vue'
 import Details from '../views/backend/Details.vue'
+import NotFound from '../views/NotFound.vue'
 
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
     name: 'Details',
     component: Details,
     props: true
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound,
   }
 ]
 

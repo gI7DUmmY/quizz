@@ -8,7 +8,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(question, index) in qcm" :key="index">
+      <tr
+        v-for="(question, index) in qcm" :key="index"
+        @click="GoDetails(question.id)"
+      >
         <td class="num">#{{ question.id }}</td>
         <td>
           {{ question.sujet.slice(0,100) }}
@@ -31,6 +34,11 @@
 <script>
 export default {
   props: [ 'qcm' ],
+  methods: {
+    GoDetails (id) {
+      this.$router.push({ name: 'Details', params: { id } })
+    }
+  }
 }
 </script>
 

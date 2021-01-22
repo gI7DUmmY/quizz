@@ -16,3 +16,11 @@
 
   <router-view />
 </template>
+
+<style>
+@font-face {
+  font-family: "Fraud";
+  src: local("Fraud"),
+   url(./assets/fonts/Fraud.ttf) format("truetype");
+}
+</style>
