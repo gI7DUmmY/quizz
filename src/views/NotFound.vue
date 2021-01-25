@@ -1,6 +1,6 @@
 <template>
   <div class="container center-align">
-    <h1 class="flow-text">La page que vous avez demandée est introuvable</h1>
+    <h3 class="">La page que vous avez demandée est introuvable</h3>
     <router-link :to="{ name: 'Home' }" class="btn-small">
       <i class="material-icons left">home</i>Retour à l'accueil
     </router-link>
@@ -14,10 +14,11 @@ export default {
 };
 </script>
 
-<style>
-h1 {
+<style scoped>
+h3 {
   font-family: "Fraud", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  text-transform: uppercase;
 }
 .btn-small {
   background-color: #6c63ff;
