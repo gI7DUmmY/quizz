@@ -6,6 +6,7 @@
       <div class="center-align">
       <label>Nombre de Questions (de 1 à {{ qcm.length }})</label>
       <input type="number" class="center-align" v-model="qtte" min="1" :max="qcm.length" required>
+      <input type="range" step="1" v-model="qtte" min="1" :max="qcm.length">
       </div>
 
       <button type="submit" class="btn-large">Démarrer</button>
@@ -18,25 +19,29 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import Preloader from '../components/Preloader.vue'
 import GetQcm from '../composables/GetQcm'
 
 export default {
   name: 'Home',
   components: { 'Preloader': Preloader },
-  methods: {
-    submit () {
-      this.$router.push({ name: 'Questions', params: { qtte: this.qtte }})
-    }
-  },
   setup () {
     const { qcm, erreur, load } = GetQcm()
-    const qtte = ref(null)
+    const qtte = ref(1)
+    const router = new useRouter()
+
+    const num = computed (() => {
+      return Math.round(qtte.value)
+    })
+    const submit = () => {
+      router.push({ name: 'Questions', params: { qtte: num.value }})
+    }
 
     load()
 
-    return { qcm, erreur, qtte }
+    return { qcm, erreur, qtte, num, submit, router }
   }
 }
 </script>
@@ -46,9 +51,16 @@ form {
   max-width: 400px;
   margin: 5em auto;
 }
+label {
+  display: block;
+  margin-bottom: 1em;
+}
+#nombre {
+  font-size: 1.5em;
+}
 input[type="number"] {
   display: block;
-  width: 100px;
-  margin: 0 auto;
+  width: 3em;
+  margin: 0 auto 1em auto;
 }
 </style>
