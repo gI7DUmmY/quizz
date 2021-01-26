@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import GetQcm from '@/composables/GetQcm'
 import Tableau from  '@/components/Tableau.vue'
 import Preloader from '@/components/Preloader.vue'
@@ -31,28 +31,27 @@ export default {
     const { qcm, erreur, load } = GetQcm()
     const search = ref('')
 
-    load()
-
-    return { qcm, erreur, search }
-  },
-  computed: {
-    filtre () {
+    const filtre = computed(() => {
       let lesTags = ''
       
-      if (this.search.length === 0) return this.qcm
+      if (search.value.length === 0) return qcm.value
       else {
-        return this.qcm.filter(q => {
+        return qcm.value.filter(q => {
           q.tags.forEach(tag => {
             lesTags += tag
           })
-          if (lesTags.includes(this.search)) {
+          if (lesTags.includes(search.value)) {
             lesTags = ''
             return true
           }
           else return false
         })
       }
-    }
+    })
+
+    load()
+
+    return { qcm, erreur, search, filtre }
   }
 }
 </script>
