@@ -24,7 +24,7 @@
         </div>
 
       </div>
-      <Tags :tags="question.tags" @addTag="addTag" />
+      <Tags :tags="question.tags" @addTag="updateTags" @remTag="updateTags" />
       <div class="btn">Enregistrer</div>
     </form>
   </div>
@@ -43,14 +43,22 @@ export default {
   setup (props) {
     const { question, erreur, load } = GetQuestion(props.id)
 
-    const addTag = (payload) => {
-      question.value.tags = payload
-      console.log(question.value.tags)
+    const updateTags = async (payload) => {
+      try {
+        await fetch('http://localhost:3000/quizz/' + props.id,
+          {
+            method: "PATCH",
+            headers: { 'Content-Type': 'application/json;charset=utf-8' },
+            body: JSON.stringify(payload)
+          })
+      } catch (err) {
+        console.log(err.message)
+      }
     }
 
     load()
 
-    return { question, erreur, addTag }
+    return { question, erreur, updateTags }
   }
 }
 </script>

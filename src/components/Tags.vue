@@ -8,9 +8,13 @@
     </div>
     <div
       class="chip"
-      v-for="(tag, index) in tags" :key="index">
+      v-for="(tag, index) in lesTags" :key="index">
       #{{ tag }}
-      <i class="close material-icons">close</i>
+      <i
+        class="tiny material-icons"
+        @click="remTag(tag)"
+      >close
+      </i>
     </div>
   </div>
 </template>
@@ -20,7 +24,7 @@ import { ref } from 'vue'
 
 export default {
   props: ['tags'],
-  setup (props) {
+  setup (props, { emit }) {
     const newTag = ref('')
     let lesTags = ref([])
     let tagSet = new Set()
@@ -31,22 +35,31 @@ export default {
 
     lesTags.value = [...tagSet]
 
-    return { newTag, lesTags }
-  },
-  methods: {
-    addTag () {
-      if (!this.lesTags.includes(this.newTag)) {
-        this.newTag = this.newTag.replace(/\s/g,'') // remove all whitespace
-        this.lesTags.push(this.newTag)
+    const addTag = () => {
+      const res = { tags: [] }
+      if (!lesTags.value.includes(newTag.value)) {
+        newTag.value = newTag.value.replace(/\s/g,'') // remove all whitespace
+        lesTags.value.push(newTag.value)
       }
-
-      this.newTag = ''
-      this.$emit('addTag', this.lesTags)
+      res.tags = lesTags.value
+      newTag.value = ''
+      emit('addTag', res)
     }
+
+    const remTag = (tag) => {
+      const res = { tags: [] }
+      lesTags.value = lesTags.value.filter(el => el !== tag)
+      res.tags = lesTags.value
+      emit('remTag', res)
+    }
+
+    return { newTag, lesTags, addTag, remTag }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+.material-icons {
+  cursor: pointer;
+}
 </style>
