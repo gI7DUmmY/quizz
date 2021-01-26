@@ -41,7 +41,7 @@ export default {
 
     load()
 
-    return { qcm, erreur, qtte, num, submit, router }
+    return { qcm, erreur, qtte, num, submit }
   }
 }
 </script>
