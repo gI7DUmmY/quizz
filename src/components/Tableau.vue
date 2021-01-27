@@ -1,4 +1,5 @@
 <template>
+  <div>{{ qcm.length }} résultat(s)</div>
   <table class="highlight responsive-table">
     <thead>
       <tr>
@@ -22,6 +23,7 @@
             v-for="(tag, index) in question.tags"
             :key="index"
             class="tag"
+            :class="{ match: matched(tag) }"
           >
             #{{ tag }}
           </div>
@@ -32,16 +34,25 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
+
 export default {
-  props: [ 'qcm' ],
-  methods: {
-    GoDetails (id) {
-      this.$router.push({ name: 'Details', params: { id } })
-    }
+  props: [ 'qcm', 'search' ],
+  setup (props) {
+    const router  = new useRouter
+    const matched = (tag) => tag.includes(props.search)
+    const GoDetails = (id) => router.push({ name: 'Details', params: { id } })
+
+    return { matched, GoDetails }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+.tag{
+  display: inline-block;
+}
+.match {
+  font-weight: bold;
+}
 </style>

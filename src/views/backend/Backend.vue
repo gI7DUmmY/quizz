@@ -7,7 +7,7 @@
         <label for="tag">#Tag</label>
       </div>
 
-      <Tableau :qcm="filtre" />
+      <Tableau :qcm="filtre" :search="search" />
     </div>
 
     <div v-else>
@@ -33,8 +33,8 @@ export default {
 
     const filtre = computed(() => {
       let lesTags = ''
-      
-      if (search.value.length === 0) return qcm.value
+
+      if (!search.value) return qcm.value
       else {
         return qcm.value.filter(q => {
           q.tags.forEach(tag => {
@@ -59,8 +59,5 @@ export default {
 <style scoped>
 .num {
   font-weight: bold;
-}
-.tag{
-  display: inline-block;
 }
 </style>
