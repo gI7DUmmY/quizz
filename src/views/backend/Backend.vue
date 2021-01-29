@@ -1,10 +1,13 @@
 <template>
   <div class="container">
     <h1 class="center-align">Backend</h1>
-    <div v-if="qcm.length">
+    <router-link :to="{ name: 'NewQuestion' }" class="btn-small">
+      <i class="material-icons left">add</i>Question
+    </router-link>
+    <div v-if="qcm.length" class="search">
       <div class="input-field">
-        <input id="tag" type="text" v-model="search">
-        <label for="tag">#Tag</label>
+        <i class="material-icons prefix">search</i>
+        <input id="tag" type="text" placeholder="#Tag" v-model="search">
       </div>
 
       <Tableau :qcm="filtre" :search="search" />
@@ -57,7 +60,7 @@ export default {
 </script>
 
 <style scoped>
-.num {
-  font-weight: bold;
+.search {
+  margin-top: 1.5em;
 }
 </style>

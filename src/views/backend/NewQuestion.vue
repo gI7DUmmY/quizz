@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <div v-if="question">
-    <h3 class="center-align">Détails de la question {{ id }}</h3>
+    <h3 class="center-align">Ajouter une nouvelle question</h3>
     <form @submit.prevent="save" class="col s12">
       <div class="row">
         <div class="input-field col s12" id="sujet">
@@ -43,49 +43,52 @@
 
 <script>
 import { ref } from 'vue'
-import GetQuestion from '@/composables/GetQuestion'
 import Tags from '@/components/Tags.vue'
 
 export default {
-  name: 'Details',
-  props: [ 'id' ],
-  components: { Tags },
-  setup (props) {
-    const { question, erreur, load } = GetQuestion(props.id)
+name: 'NewQuestion',
+components: { Tags },
+setup () {
+  const question = ref({
+    sujet: '',
+    choix: [
+      { id: 0, texte: 'Choix 1', note: 0 },
+      { id: 1, texte: 'Choix 2', note: 0 }
+    ],
+    tags: []
+  })
 
-    const updateTags = (payload) => question.value.tags = payload
-
-    const addChoice = () => {
-      const newChoice = { id: question.value.choix.length, texte: 'Nouveau choix', note: 0 }
-      question.value.choix.push(newChoice)
-    }
-
-    const remChoice = (id) => {
-      question.value.choix = question.value.choix.filter(el => el.id !== id)
-    }
-
-    const save = async () => {
-      question.value.choix.forEach(rep => {
-        rep.note = parseFloat(rep.note)
-      });
-      try {
-        await fetch('http://localhost:3000/quizz/' + props.id,
-          {
-            method: "PATCH",
-            mode: 'cors',
-            headers: { 'Content-Type': 'application/json;charset=utf-8' },
-            body: JSON.stringify(question.value)
-          }
-        )
-      } catch (err) {
-        console.log(err.message)
-      }
-    }
-
-    load()
-
-    return { question, erreur, updateTags, save, addChoice, remChoice }
+  const addChoice = () => {
+    const newChoice = { id: question.value.choix.length, texte: 'Nouveau choix', note: 0 }
+    question.value.choix.push(newChoice)
   }
+
+  const remChoice = (id) => {
+    question.value.choix = question.value.choix.filter(el => el.id !== id)
+  }
+
+  const updateTags = (payload) => question.value.tags = payload
+
+  const save = async () => {
+    question.value.choix.forEach(rep => {
+      rep.note = parseFloat(rep.note)
+    });
+    try {
+      await fetch('http://localhost:3000/quizz/',
+        {
+          method: "POST",
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json;charset=utf-8' },
+          body: JSON.stringify(question.value)
+        }
+      )
+    } catch (err) {
+      console.log(err.message)
+    }
+  }
+
+  return { question, addChoice, remChoice, updateTags, save }
+}
 }
 </script>
 
@@ -94,7 +97,7 @@ export default {
   padding: 0px;
 }
 .entete {
-  margin-bottom: 0px;
+  margin-bottom: 1em;
   font-weight: bold;
 }
 #colonne {

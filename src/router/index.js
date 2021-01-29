@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Questions from '../views/Questions.vue'
 import Backend from '../views/backend/Backend.vue'
 import Details from '../views/backend/Details.vue'
+import NewQuestion from '../views/backend/NewQuestion.vue'
 import NotFound from '../views/NotFound.vue'
 
 const routes = [
@@ -21,13 +22,17 @@ const routes = [
     path: '/backend',
     name: 'Backend',
     component: Backend,
-    props: true
   },
   {
     path: '/backend/:id',
     name: 'Details',
     component: Details,
     props: true
+  },
+  {
+    path: '/backend/ajouter',
+    name: 'NewQuestion',
+    component: NewQuestion,
   },
   {
     path: '/:catchAll(.*)',
