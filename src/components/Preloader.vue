@@ -1,6 +1,10 @@
 <template>
   <div class="row">
-    <div class="col s12"><h4 class="center-align">Chargement en cours...</h4></div>
+    <div class="col s12">
+      <h4 class="center-align">
+        <slot>Chargement en cours...</slot>
+      </h4>
+    </div>
     <div class="col s12">
       <div id="spinner" class="center-align">
         <div class="preloader-wrapper active">

@@ -1,8 +1,8 @@
 <template>
 <div class="container">
-  <div v-if="question">
+  <div v-if="!loading">
     <h3 class="center-align">Ajouter une nouvelle question</h3>
-    <form @submit.prevent="save" class="col s12">
+    <form ref="form" @submit.prevent="save" class="col s12">
       <div class="row">
         <div class="input-field col s12" id="sujet">
           <div class="entete">Sujet :</div>
@@ -38,25 +38,34 @@
       <button type="submit" class="btn">Enregistrer</button>
     </form>
   </div>
+  <div v-else>
+    <Preloader>Sauvegarde en cours...</Preloader>
+  </div>
+  <div v-if="erreur">{{ erreur }}</div>
 </div>
 </template>
 
 <script>
 import { ref } from 'vue'
 import Tags from '@/components/Tags.vue'
+import Preloader from '@/components/Preloader.vue'
 
 export default {
 name: 'NewQuestion',
-components: { Tags },
+components: { Tags, Preloader },
 setup () {
-  const question = ref({
+  const squelette = ref({
     sujet: '',
     choix: [
-      { id: 0, texte: 'Choix 1', note: 0 },
-      { id: 1, texte: 'Choix 2', note: 0 }
+      { id: 0, texte: '', note: null },
+      { id: 1, texte: '', note: null }
     ],
     tags: []
   })
+  const question = ref(null)
+
+  const loading = ref(false)
+  const erreur = ref(null)
 
   const addChoice = () => {
     const newChoice = { id: question.value.choix.length, texte: 'Nouveau choix', note: 0 }
@@ -70,6 +79,7 @@ setup () {
   const updateTags = (payload) => question.value.tags = payload
 
   const save = async () => {
+    loading.value = true
     question.value.choix.forEach(rep => {
       rep.note = parseFloat(rep.note)
     });
@@ -82,12 +92,16 @@ setup () {
           body: JSON.stringify(question.value)
         }
       )
+      loading.value = false
     } catch (err) {
+      erreur.value = err.message
       console.log(err.message)
     }
   }
 
-  return { question, addChoice, remChoice, updateTags, save }
+  question.value = squelette.value
+
+  return { question, addChoice, remChoice, updateTags, save, loading, erreur, squelette }
 }
 }
 </script>
