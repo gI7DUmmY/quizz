@@ -90,6 +90,7 @@ export default {
         this.valeurs.forEach(element => {
           this.resultat += element.note
         });
+        if (this.resultat < 0) this.resultat = 0
         this.pourcentage = Math.round(this.resultat * 100 / this.total)
       }
       this.joue = false

@@ -1,12 +1,12 @@
 <template>
 <div class="container">
-  <div v-if="question" class="row">
+  <div v-if="question">
     <h3 class="center-align">Détails de la question {{ id }}</h3>
     <form @submit.prevent="save" class="col s12">
       <div class="row">
         <div class="input-field col s12" id="sujet">
           <div class="entete">Sujet :</div>
-          <textarea :value="question.sujet" id="sujet" class="materialize-textarea"></textarea>
+          <textarea required v-model="question.sujet" id="sujet" class="materialize-textarea"></textarea>
         </div>
       </div>
 
@@ -18,16 +18,19 @@
         </div>
         <div v-for="(rep, index) in question.choix" :key="index" class="input-field col s12">
           <div class="row">
-            <input type="text" :value="rep.texte" class="col s9">
-            <input type="number" :value="rep.note" class="col s1 offset-s1">
+            <input type="text" required v-model="rep.texte" class="col s9">
+            <input type="number" required v-model="rep.note" step="1" class="col s1 offset-s1">
+            <button class="btn-floating corbeille btn-small red" @click="remChoice(rep.id)">
+              <i class="material-icons">delete</i>
+            </button>
           </div>
         </div>
-        <button class="btn-floating" @click="addChoice">
+        <button class="btn-floating btn-small" @click.prevent="addChoice">
           <i class="material-icons">add</i>
         </button>
 
       </div>
-      <Tags :tags="question.tags" @addTag="updateTags" @remTag="updateTags" />
+      <Tags id="tags" :tags="question.tags" @updateTags="updateTags" />
       <button type="submit" class="btn">Enregistrer</button>
     </form>
   </div>
@@ -46,35 +49,43 @@ export default {
   setup (props) {
     const { question, erreur, load } = GetQuestion(props.id)
 
-    const updateTags = async (payload) => {
+    const updateTags = async (payload) => question.value.tags = payload
+
+    const addChoice = () => {
+      const newChoice = { id: question.value.choix.length, texte: 'Nouveau choix', note: 0 }
+      question.value.choix.push(newChoice)
+    }
+
+    const remChoice = (id) => {
+      question.value.choix = question.value.choix.filter(el => el.id !== id)
+    }
+
+    const save = async () => {
+      question.value.choix.forEach(rep => {
+        rep.note = parseFloat(rep.note)
+      });
       try {
         await fetch('http://localhost:3000/quizz/' + props.id,
           {
             method: "PATCH",
+            mode: 'cors',
             headers: { 'Content-Type': 'application/json;charset=utf-8' },
-            body: JSON.stringify(payload)
-          })
+            body: JSON.stringify(question.value)
+          }
+        )
       } catch (err) {
         console.log(err.message)
       }
     }
 
-    const save = async () => {}
-
-    const addChoice = () => {
-      console.log(question.value.choix.length)
-      const newChoice = { id: question.value.choix.length, texte: 'Nouveau choix', note: 0 }
-      question.value.choix.push(newChoice)
-    }
-
     load()
 
-    return { question, erreur, updateTags, save, addChoice }
+    return { question, erreur, updateTags, save, addChoice, remChoice }
   }
 }
 </script>
 
-<style scoped>
+<style>
 #sujet {
   padding: 0px;
 }
@@ -91,5 +102,14 @@ button[type="submit"], button[type="reset"] {
   margin-top: 2em;
   margin-right: auto;
   margin-left: auto;
+}
+.corbeille {
+  margin-left: 1.5em;
+}
+#tags {
+  margin-top: 1.5em;
+}
+.input-field {
+  margin-top: 0px;
 }
 </style>

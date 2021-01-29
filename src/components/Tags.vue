@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="row">
     <div class="entete">Tags :</div>
     <div class="input-field">
       <input
@@ -34,21 +34,21 @@ export default {
     lesTags.value = [...tagSet]
 
     const addTag = () => {
-      const res = { tags: [] }
+      let res = []
       if (!lesTags.value.includes(newTag.value)) {
         newTag.value = newTag.value.replace(/\s/g,'') // remove all whitespace
         lesTags.value.push(newTag.value)
       }
-      res.tags = lesTags.value
+      res = lesTags.value
       newTag.value = ''
-      emit('addTag', res)
+      emit('updateTags', res)
     }
 
     const remTag = (tag) => {
-      const res = { tags: [] }
+      let res = []
       lesTags.value = lesTags.value.filter(el => el !== tag)
-      res.tags = lesTags.value
-      emit('remTag', res)
+      res = lesTags.value
+      emit('updateTags', res)
     }
 
     return { newTag, lesTags, addTag, remTag }
