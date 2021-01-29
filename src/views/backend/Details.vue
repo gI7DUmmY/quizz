@@ -2,7 +2,7 @@
 <div class="container">
   <div v-if="question" class="row">
     <h3 class="center-align">Détails de la question {{ id }}</h3>
-    <form class="col s12">
+    <form @submit.prevent="save" class="col s12">
       <div class="row">
         <div class="input-field col s12" id="sujet">
           <div class="entete">Sujet :</div>
@@ -22,10 +22,13 @@
             <input type="number" :value="rep.note" class="col s1 offset-s1">
           </div>
         </div>
+        <button class="btn-floating" @click="addChoice">
+          <i class="material-icons">add</i>
+        </button>
 
       </div>
       <Tags :tags="question.tags" @addTag="updateTags" @remTag="updateTags" />
-      <div class="btn">Enregistrer</div>
+      <button type="submit" class="btn">Enregistrer</button>
     </form>
   </div>
 </div>
@@ -56,9 +59,17 @@ export default {
       }
     }
 
+    const save = async () => {}
+
+    const addChoice = () => {
+      console.log(question.value.choix.length)
+      const newChoice = { id: question.value.choix.length, texte: 'Nouveau choix', note: 0 }
+      question.value.choix.push(newChoice)
+    }
+
     load()
 
-    return { question, erreur, updateTags }
+    return { question, erreur, updateTags, save, addChoice }
   }
 }
 </script>
@@ -74,5 +85,11 @@ export default {
 #colonne {
   margin-top: 1em;
   margin-bottom: 0px;
+}
+button[type="submit"], button[type="reset"] {
+  display: block;
+  margin-top: 2em;
+  margin-right: auto;
+  margin-left: auto;
 }
 </style>

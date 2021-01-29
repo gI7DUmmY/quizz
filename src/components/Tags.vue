@@ -29,9 +29,7 @@ export default {
     let lesTags = ref([])
     let tagSet = new Set()
 
-    props.tags.forEach(item => {
-      tagSet.add(item)
-    })
+    props.tags.forEach(item => tagSet.add(item))
 
     lesTags.value = [...tagSet]
 

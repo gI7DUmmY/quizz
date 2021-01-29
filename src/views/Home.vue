@@ -30,7 +30,7 @@ export default {
   setup () {
     const { qcm, erreur, load } = GetQcm()
     const qtte = ref(1)
-    const router = new useRouter()
+    const router = new useRouter
 
     const num = computed (() => {
       return Math.round(qtte.value)

@@ -53,6 +53,7 @@ export default {
   display: inline-block;
 }
 .match {
-  font-weight: bold;
+  color: #4db6ac;
+  font-weight: 500;
 }
 </style>
