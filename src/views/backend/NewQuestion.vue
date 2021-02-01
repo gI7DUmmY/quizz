@@ -42,19 +42,23 @@
     <Preloader>Sauvegarde en cours...</Preloader>
   </div>
   <div v-if="erreur">{{ erreur }}</div>
+
+  <Modal>Question Ajoutée</Modal>
 </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import Tags from '@/components/Tags.vue'
 import Preloader from '@/components/Preloader.vue'
+import Modal from '@/components/Modal.vue'
+import openModal from '@/composables/openModal'
 
 export default {
 name: 'NewQuestion',
-components: { Tags, Preloader },
+components: { Tags, Preloader, Modal },
 setup () {
-  const squelette = ref({
+  const question = ref({
     sujet: '',
     choix: [
       { id: 0, texte: '', note: null },
@@ -62,7 +66,6 @@ setup () {
     ],
     tags: []
   })
-  const question = ref(null)
 
   const loading = ref(false)
   const erreur = ref(null)
@@ -81,7 +84,7 @@ setup () {
   const save = async () => {
     loading.value = true
     question.value.choix.forEach(rep => {
-      rep.note = parseFloat(rep.note)
+      rep.note = parseInt(rep.note)
     });
     try {
       await fetch('http://localhost:3000/quizz/',
@@ -94,14 +97,27 @@ setup () {
       )
       loading.value = false
     } catch (err) {
+      loading.value = false
       erreur.value = err.message
       console.log(err.message)
     }
+    openModal()
+    question.value = {
+      sujet: '',
+      choix: [
+        { id: 0, texte: '', note: null },
+        { id: 1, texte: '', note: null }
+      ],
+      tags: []
+    }
   }
 
-  question.value = squelette.value
+  onMounted(() => {
+    const elems = document.querySelectorAll('.modal');
+    const instances = M.Modal.init(elems);
+  })
 
-  return { question, addChoice, remChoice, updateTags, save, loading, erreur, squelette }
+  return { question, addChoice, remChoice, updateTags, save, loading, erreur }
 }
 }
 </script>
