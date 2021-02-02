@@ -1,6 +1,6 @@
 <template>
   <div>{{ qcm.length }} résultat(s)</div>
-  <table class="highlight responsive-table">
+  <table class="highlight">
     <thead>
       <tr>
         <th>N°</th>
