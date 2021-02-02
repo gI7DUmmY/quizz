@@ -8,7 +8,12 @@
         :to="{ name: 'Backend' }">
         revenir à la liste
       </router-link>
-      <button class="modal-close waves-effect waves-green btn-flat right">Continuer</button>
+      <button
+        v-if="type === 'save'"
+        class="modal-close waves-effect waves-green btn-flat right"
+      >
+        Continuer
+      </button>
     </div>
   </div>
 </template>
@@ -16,6 +21,7 @@
 <script>
 export default {
   name: "Modal",
+  props: [ 'type' ]
 }
 </script>
 

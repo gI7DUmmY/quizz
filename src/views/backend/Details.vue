@@ -48,7 +48,7 @@
     </form>
   </div>
 
-  <Modal>Modifications Enregistrées</Modal>
+  <Modal :type="typeModal">{{ titreModal }}</Modal>
 </div>
 </template>
 
@@ -65,6 +65,8 @@ export default {
   components: { Tags, Modal },
   setup (props) {
     const { question, erreur, load } = GetQuestion(props.id)
+    const titreModal = ref(null)
+    const typeModal = ref(null)
 
     const updateTags = (payload) => question.value.tags = payload
 
@@ -73,11 +75,11 @@ export default {
       question.value.choix.push(newChoice)
     }
 
-    const remChoice = (id) => {
-      question.value.choix = question.value.choix.filter(el => el.id !== id)
-    }
+    const remChoice = (id) => question.value.choix = question.value.choix.filter(el => el.id !== id)
 
     const save = async () => {
+      titreModal.value = 'Modifications Enregistrées'
+      typeModal.value = 'save'
       question.value.choix.forEach(rep => {
         rep.note = parseFloat(rep.note)
       })
@@ -97,6 +99,8 @@ export default {
     }
 
     const suppr = async () => {
+      titreModal.value = 'Question Supprimée'
+      typeModal.value = 'delete'
       try {
         await fetch('http://localhost:3000/quizz/' + props.id,
           {
@@ -105,6 +109,7 @@ export default {
             headers: { 'Content-Type': 'application/json;charset=utf-8' },
           }
         )
+        openModal()
       } catch (err) {
         console.log(err.message)
       }
@@ -117,7 +122,7 @@ export default {
       const instances = M.Modal.init(elems);
     })
 
-    return { question, erreur, updateTags, save, addChoice, remChoice, suppr }
+    return { question, erreur, updateTags, save, addChoice, remChoice, suppr, titreModal, typeModal }
   }
 }
 </script>

@@ -43,7 +43,7 @@
   </div>
   <div v-if="erreur">{{ erreur }}</div>
 
-  <Modal>Question Ajoutée</Modal>
+  <Modal :type="'save'">Question Ajoutée</Modal>
 </div>
 </template>
 
