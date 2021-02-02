@@ -45,12 +45,16 @@
                 </div>
               </div>
           </div>
-          <button v-if="showSubmit || qtte == 1" type="submit" class="btn-large">Résultat</button>
+          <button v-if="showSubmit || qtte == 1" type="submit" class="btn-large">
+            <i class="material-icons left">school</i>Résultat
+          </button>
         </div>
 
         <div v-else>
           <Resultat :resultat="resultat" :total="total" :pourcentage="pourcentage" />
-          <button type="reset" class="btn-large">Rejouer</button>
+          <button type="reset" class="btn-large">
+            <i class="material-icons left">replay</i>Rejouer
+          </button>
         </div>
       </form>
     </div>

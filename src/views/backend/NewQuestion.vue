@@ -35,7 +35,9 @@
 
       </div>
       <Tags id="tags" :tags="question.tags" @updateTags="updateTags" />
-      <button type="submit" class="btn">Enregistrer</button>
+      <button type="submit" class="btn">
+        <i class="material-icons left">save</i>Enregistrer
+      </button>
     </form>
   </div>
   <div v-else>

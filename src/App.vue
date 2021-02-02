@@ -2,7 +2,10 @@
   <div class="navbar-fixed">
     <nav>
       <div class="nav-wrapper blue">
-        <!-- <a href="#!" class="brand-logo">Logo</a> -->
+        <a href="https://www.ffft.fr/" target="_blank" class="brand-logo center">
+          <img src="@/assets/FFFT_logo.png" alt="logo_ffft" class="responsive-img">
+
+        </a>
         <ul>
           <li>
             <router-link to="/">
@@ -30,5 +33,9 @@
 }
 .container {
   margin-bottom: 2em;
+}
+.brand-logo img {
+  height: 56px;
+  margin-top: 4px;
 }
 </style>

@@ -9,7 +9,11 @@
       <input type="range" step="1" v-model="qtte" min="1" :max="qcm.length">
       </div>
 
-      <button type="submit" class="btn-large">Démarrer</button>
+      <div class="row center-align">
+        <button type="submit" class="btn-large">
+          <i class="material-icons left">play_arrow</i>Démarrer
+        </button>
+      </div>
     </form>
     <div v-else>
       <Preloader />
@@ -62,5 +66,8 @@ input[type="number"] {
   display: block;
   width: 3em;
   margin: 0 auto 1em auto;
+}
+button[type="submit"] {
+  margin-top: 2em;
 }
 </style>
