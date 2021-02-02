@@ -151,7 +151,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .sujet {
   font-weight: 350;
   font-size: 1.5em;

@@ -28,4 +28,7 @@
   src: local("Fraud"),
    url(./assets/fonts/Fraud.ttf) format("truetype");
 }
+.container {
+  margin-bottom: 2em;
+}
 </style>

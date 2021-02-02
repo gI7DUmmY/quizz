@@ -85,7 +85,7 @@ setup () {
     loading.value = true
     question.value.choix.forEach(rep => {
       rep.note = parseInt(rep.note)
-    });
+    })
     try {
       await fetch('http://localhost:3000/quizz/',
         {
@@ -96,12 +96,12 @@ setup () {
         }
       )
       loading.value = false
+      openModal()
     } catch (err) {
       loading.value = false
       erreur.value = err.message
       console.log(err.message)
     }
-    openModal()
     question.value = {
       sujet: '',
       choix: [
@@ -122,7 +122,7 @@ setup () {
 }
 </script>
 
-<style>
+<style scoped>
 #sujet {
   padding: 0px;
 }
@@ -134,7 +134,7 @@ setup () {
   margin-top: 1em;
   margin-bottom: 0px;
 }
-button[type="submit"], button[type="reset"] {
+button[type="submit"] {
   display: block;
   margin-top: 2em;
   margin-right: auto;

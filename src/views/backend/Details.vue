@@ -35,21 +35,34 @@
 
       </div>
       <Tags id="tags" :tags="question.tags" @updateTags="updateTags" />
-      <button type="submit" class="btn">Enregistrer</button>
+      <div class="row actions">
+        <div class="col s6 offset-s3">
+          <button class="btn left red" @click.prevent="suppr">
+            <i class="material-icons left">delete_forever</i>Effacer
+          </button>
+          <button type="submit" class="btn right">
+            <i class="material-icons left">save</i>Enregistrer
+          </button>
+        </div>
+      </div>
     </form>
   </div>
+
+  <Modal>Modifications Enregistrées</Modal>
 </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import GetQuestion from '@/composables/GetQuestion'
 import Tags from '@/components/Tags.vue'
+import Modal from  '@/components/Modal.vue'
+import openModal from '@/composables/openModal'
 
 export default {
   name: 'Details',
   props: [ 'id' ],
-  components: { Tags },
+  components: { Tags, Modal },
   setup (props) {
     const { question, erreur, load } = GetQuestion(props.id)
 
@@ -67,7 +80,7 @@ export default {
     const save = async () => {
       question.value.choix.forEach(rep => {
         rep.note = parseFloat(rep.note)
-      });
+      })
       try {
         await fetch('http://localhost:3000/quizz/' + props.id,
           {
@@ -77,6 +90,21 @@ export default {
             body: JSON.stringify(question.value)
           }
         )
+        openModal()
+      } catch (err) {
+        console.log(err.message)
+      }
+    }
+
+    const suppr = async () => {
+      try {
+        await fetch('http://localhost:3000/quizz/' + props.id,
+          {
+            method: "DELETE",
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json;charset=utf-8' },
+          }
+        )
       } catch (err) {
         console.log(err.message)
       }
@@ -84,12 +112,17 @@ export default {
 
     load()
 
-    return { question, erreur, updateTags, save, addChoice, remChoice }
+    onMounted (() => {
+      const elems = document.querySelectorAll('.modal');
+      const instances = M.Modal.init(elems);
+    })
+
+    return { question, erreur, updateTags, save, addChoice, remChoice, suppr }
   }
 }
 </script>
 
-<style>
+<style scoped>
 #sujet {
   padding: 0px;
 }
@@ -101,12 +134,6 @@ export default {
   margin-top: 1em;
   margin-bottom: 0px;
 }
-button[type="submit"], button[type="reset"] {
-  display: block;
-  margin-top: 2em;
-  margin-right: auto;
-  margin-left: auto;
-}
 .corbeille {
   margin-left: 1.5em;
 }
@@ -115,5 +142,8 @@ button[type="submit"], button[type="reset"] {
 }
 .input-field {
   margin-top: 0px;
+}
+.actions {
+  margin-top: 2em;
 }
 </style>
