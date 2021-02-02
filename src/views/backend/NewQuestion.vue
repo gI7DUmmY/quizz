@@ -18,8 +18,8 @@
         </div>
         <div v-for="(rep, index) in question.choix" :key="index" class="input-field col s12">
           <div class="row">
-            <input type="text" required v-model="rep.texte" class="col s9">
-            <input type="number" required v-model="rep.note" step="1" class="col s1 offset-s1">
+            <input type="text" required v-model="rep.texte" class="col s9" @keydown.enter.prevent="">
+            <input type="number" required v-model="rep.note" step="1" class="col s1 offset-s1" @keydown.enter.prevent="">
             <button
               class="btn-floating corbeille btn-small red"
               @click.prevent="remChoice(rep.id)"

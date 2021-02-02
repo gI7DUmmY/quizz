@@ -51,6 +51,7 @@ export default {
 <style scoped>
 .tag{
   display: inline-block;
+  margin-left: 0.3em;
 }
 .match {
   color: #4db6ac;
