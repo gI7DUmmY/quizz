@@ -4,7 +4,6 @@
       <div class="nav-wrapper blue">
         <a href="https://www.ffft.fr/" target="_blank" class="brand-logo center">
           <img src="@/assets/FFFT_logo.png" alt="logo_ffft" class="responsive-img">
-
         </a>
         <ul>
           <li>

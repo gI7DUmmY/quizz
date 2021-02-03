@@ -73,7 +73,8 @@ export default {
     const updateTags = (payload) => question.value.tags = payload
 
     const addChoice = () => {
-      const newChoice = { id: question.value.choix.length, texte: 'Nouveau choix', note: 0 }
+      const uid = new Date
+      const newChoice = { id: Date.now(uid), texte: 'Nouveau choix', note: 0 }
       question.value.choix.push(newChoice)
     }
 

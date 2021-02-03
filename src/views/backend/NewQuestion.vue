@@ -73,12 +73,13 @@ setup () {
   const erreur = ref(null)
 
   const addChoice = () => {
-    const newChoice = { id: question.value.choix.length, texte: 'Nouveau choix', note: 0 }
+    const uid = new Date
+    const newChoice = { id: Date.now(uid), texte: 'Nouveau choix', note: 0 }
     question.value.choix.push(newChoice)
   }
 
   const remChoice = (id) => {
-    question.value.choix = question.value.choix.filter(el => el.id !== id)
+    if (question.value.choix.length > 2) question.value.choix = question.value.choix.filter(el => el.id !== id)
   }
 
   const updateTags = (payload) => question.value.tags = payload
