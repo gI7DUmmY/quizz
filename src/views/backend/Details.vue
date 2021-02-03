@@ -50,6 +50,10 @@
     </form>
   </div>
 
+  <div v-if="erreur">
+    <h4 class="red-text center-align">{{ erreur }}</h4>
+  </div>
+
   <Modal :type="typeModal">{{ titreModal }}</Modal>
 </div>
 </template>
@@ -99,6 +103,7 @@ export default {
         )
         openModal()
       } catch (err) {
+        erreur.value = err.message
         console.log(err.message)
       }
     }
@@ -116,6 +121,7 @@ export default {
         )
         openModal()
       } catch (err) {
+        erreur.value = err.message
         console.log(err.message)
       }
     }

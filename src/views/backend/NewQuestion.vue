@@ -43,7 +43,10 @@
   <div v-else>
     <Preloader>Sauvegarde en cours...</Preloader>
   </div>
-  <div v-if="erreur">{{ erreur }}</div>
+
+  <div v-if="erreur">
+    <h4 class="red-text center-align">{{ erreur }}</h4>
+  </div>
 
   <Modal :type="'save'">Question Ajoutée</Modal>
 </div>
