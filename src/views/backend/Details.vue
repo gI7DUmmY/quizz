@@ -78,7 +78,9 @@ export default {
       question.value.choix.push(newChoice)
     }
 
-    const remChoice = (id) => question.value.choix = question.value.choix.filter(el => el.id !== id)
+    const remChoice = (id) => {
+      if (question.value.choix.length > 2) question.value.choix = question.value.choix.filter(el => el.id !== id)
+    }
 
     const save = async () => {
       titreModal.value = 'Modifications Enregistrées'
