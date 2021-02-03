@@ -39,7 +39,7 @@
 
       <div class="row actions">
         <div class="col s6 offset-s3">
-          <button class="btn left red" @click.prevent="suppr">
+          <button class="btn left red" @click.prevent="confirmSuppr">
             <i class="material-icons left">delete_forever</i>Effacer
           </button>
           <button type="submit" class="btn right">
@@ -54,7 +54,7 @@
     <h4 class="red-text center-align">{{ erreur }}</h4>
   </div>
 
-  <Modal :type="typeModal">{{ titreModal }}</Modal>
+  <Modal :type="typeModal" @suppr="suppr">{{ titreModal }}</Modal>
 </div>
 </template>
 
@@ -108,22 +108,29 @@ export default {
       }
     }
 
-    const suppr = async () => {
-      titreModal.value = 'Question Supprimée'
+    const confirmSuppr = () => {
+      titreModal.value = 'Supprimer la question ?'
       typeModal.value = 'delete'
-      try {
-        await fetch('http://localhost:3000/quizz/' + props.id,
-          {
-            method: "DELETE",
-            mode: 'cors',
-            headers: { 'Content-Type': 'application/json;charset=utf-8' },
-          }
-        )
-        openModal()
-      } catch (err) {
-        erreur.value = err.message
-        console.log(err.message)
-      }
+      openModal()
+    }
+
+    const suppr = async () => {
+      titreModal.value = 'Question supprimée'
+      typeModal.value = 'suppr'
+      openModal()
+      // try {
+      //   await fetch('http://localhost:3000/quizz/' + props.id,
+      //     {
+      //       method: "DELETE",
+      //       mode: 'cors',
+      //       headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      //     }
+      //   )
+      // } catch (err) {
+      //   erreur.value = err.message
+      //   console.log(err.message)
+      // }
+      console.log('suppr la question ' + question.value.id)
     }
 
     load()
@@ -133,7 +140,7 @@ export default {
       const instances = M.Modal.init(elems);
     })
 
-    return { question, erreur, updateTags, save, addChoice, remChoice, suppr, titreModal, typeModal }
+    return { question, erreur, updateTags, save, addChoice, remChoice, titreModal, typeModal, confirmSuppr, suppr }
   }
 }
 </script>

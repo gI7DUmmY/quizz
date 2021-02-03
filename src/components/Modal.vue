@@ -1,19 +1,35 @@
 <template>
   <div id="modal1" class="modal">
     <div class="modal-content">
-      <h4><slot></slot></h4>
+      <h4 class="center-align"><slot></slot></h4>
     </div>
-    <div class="modal-footer">
+    <div v-if="type === 'save'" class="modal-footer">
       <router-link class="modal-close waves-effect waves-green btn-flat left"
         :to="{ name: 'Backend' }">
         revenir à la liste
       </router-link>
-      <button
-        v-if="type === 'save'"
-        class="modal-close waves-effect waves-green btn-flat right"
-      >
+      <button class="modal-close waves-effect waves-green btn-flat right">
         Continuer
       </button>
+    </div>
+
+    <div v-if="type === 'delete'" class="modal-footer">
+      <button class="modal-close waves-effect waves-green btn red left">
+        NON
+      </button>
+      <button
+        class="modal-close waves-effect waves-green btn right"
+        @click="suppr"
+      >
+        OUI
+      </button>
+    </div>
+
+    <div v-if="type === 'suppr'" class="modal-footer">
+      <router-link class="modal-close waves-effect waves-green btn-flat"
+        :to="{ name: 'Backend' }">
+        revenir à la liste
+      </router-link>
     </div>
   </div>
 </template>
@@ -21,7 +37,12 @@
 <script>
 export default {
   name: "Modal",
-  props: [ 'type' ]
+  props: [ 'type' ],
+  setup(props, { emit }) {
+    const suppr = () => emit('suppr')
+
+    return { suppr }
+  }
 }
 </script>
 
