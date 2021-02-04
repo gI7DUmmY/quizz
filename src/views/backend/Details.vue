@@ -54,12 +54,14 @@
     <h4 class="red-text center-align">{{ erreur }}</h4>
   </div>
 
-  <Modal :type="typeModal" @suppr="suppr">{{ titreModal }}</Modal>
+  <Modal :id="'std'" :type="typeModal" @suppr="suppr">{{ titreModal }}</Modal>
+  <Modal :id="'suppr'" :type="typeModal">{{ titreModal }}</Modal>
 </div>
 </template>
 
 <script>
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import GetQuestion from '@/composables/GetQuestion'
 import Tags from '@/components/Tags.vue'
 import Modal from  '@/components/Modal.vue'
@@ -73,6 +75,7 @@ export default {
     const { question, erreur, load } = GetQuestion(props.id)
     const titreModal = ref(null)
     const typeModal = ref(null)
+    const router = new useRouter
 
     const updateTags = (payload) => question.value.tags = payload
 
@@ -90,7 +93,7 @@ export default {
       titreModal.value = 'Modifications Enregistrées'
       typeModal.value = 'save'
       question.value.choix.forEach(rep => {
-        rep.note = parseFloat(rep.note)
+        rep.note = parseInt(rep.note)
       })
       try {
         await fetch('http://localhost:3000/quizz/' + props.id,
@@ -101,7 +104,7 @@ export default {
             body: JSON.stringify(question.value)
           }
         )
-        openModal()
+        openModal('std')
       } catch (err) {
         erreur.value = err.message
         console.log(err.message)
@@ -110,34 +113,35 @@ export default {
 
     const confirmSuppr = () => {
       titreModal.value = 'Supprimer la question ?'
-      typeModal.value = 'delete'
-      openModal()
+      typeModal.value = 'confirmSuppr'
+      openModal('std')
     }
 
     const suppr = async () => {
       titreModal.value = 'Question supprimée'
       typeModal.value = 'suppr'
-      openModal()
-      // try {
-      //   await fetch('http://localhost:3000/quizz/' + props.id,
-      //     {
-      //       method: "DELETE",
-      //       mode: 'cors',
-      //       headers: { 'Content-Type': 'application/json;charset=utf-8' },
-      //     }
-      //   )
-      // } catch (err) {
-      //   erreur.value = err.message
-      //   console.log(err.message)
-      // }
-      console.log('suppr la question ' + question.value.id)
+      try {
+        await fetch('http://localhost:3000/quizz/' + props.id,
+          {
+            method: "DELETE",
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json;charset=utf-8' },
+          }
+        )
+        setTimeout(() => openModal('suppr'), 500)
+      } catch (err) {
+        erreur.value = err.message
+        console.log(err.message)
+      }
     }
 
     load()
 
     onMounted (() => {
-      const elems = document.querySelectorAll('.modal');
-      const instances = M.Modal.init(elems);
+      const stdModal = document.querySelector('#std')
+      const supprModal = document.querySelector('#suppr')
+      M.Modal.init(stdModal)
+      M.Modal.init(supprModal, { onCloseEnd: () => router.push({ name: 'Backend' }) })
     })
 
     return { question, erreur, updateTags, save, addChoice, remChoice, titreModal, typeModal, confirmSuppr, suppr }

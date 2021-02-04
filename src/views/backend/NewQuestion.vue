@@ -120,7 +120,7 @@ setup () {
 
   onMounted(() => {
     const elems = document.querySelectorAll('.modal');
-    const instances = M.Modal.init(elems);
+    M.Modal.init(elems);
   })
 
   return { question, addChoice, remChoice, updateTags, save, loading, erreur }

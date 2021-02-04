@@ -1,5 +1,5 @@
 <template>
-  <div id="modal1" class="modal">
+  <div :id="id" class="modal">
     <div class="modal-content">
       <h4 class="center-align"><slot></slot></h4>
     </div>
@@ -13,7 +13,7 @@
       </button>
     </div>
 
-    <div v-if="type === 'delete'" class="modal-footer">
+    <div v-if="type === 'confirmSuppr'" class="modal-footer">
       <button class="modal-close waves-effect waves-green btn red left">
         NON
       </button>
@@ -37,9 +37,11 @@
 <script>
 export default {
   name: "Modal",
-  props: [ 'type' ],
+  props: [ 'id', 'type' ],
   setup(props, { emit }) {
-    const suppr = () => emit('suppr')
+    const suppr = () => {
+      if (props.type === 'confirmSuppr') emit('suppr')
+    }
 
     return { suppr }
   }
