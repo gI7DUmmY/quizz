@@ -1,5 +1,5 @@
 <template>
-  <div>{{ qcm.length }} résultat(s)</div>
+  <div class="match">{{ qcm.length }} résultat(s)</div>
   <table class="highlight">
     <thead>
       <tr>

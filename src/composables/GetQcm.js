@@ -4,13 +4,6 @@ const GetQcm = () => {
   const qcm = ref([])
   const erreur = ref(null)
 
-  // const load = () => {
-  //   fetch("http://localhost:3000/quizz")
-  //     .then(res => res.json())
-  //     .then(data => qcm.value = data)
-  //     .catch(err => console.log(err.message))
-  // }
-  
   const load = async () => {
     try {
       let data = await fetch("http://localhost:3000/quizz")

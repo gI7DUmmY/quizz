@@ -4,7 +4,7 @@
     <router-link :to="{ name: 'NewQuestion' }" class="btn-small">
       <i class="material-icons left">add</i>Question
     </router-link>
-    <div v-if="qcm.length" class="search">
+    <div v-if="!loading && qcm.length > 0" class="search">
       <div class="input-field">
         <i class="material-icons prefix">search</i>
         <input id="tag" type="text" placeholder="#Tag" v-model="search">
@@ -13,9 +13,11 @@
       <Tableau :qcm="filtre" :search="search" />
     </div>
 
-    <div v-else>
+    <div v-if="loading">
       <Preloader />
     </div>
+
+    <h4 v-if="qcm.length === 0" class="center-align">Il n'y a pas encore de question !</h4>
 
     <div v-if="erreur">{{ erreur }}</div>
   </div>
@@ -33,6 +35,7 @@ export default {
   setup () {
     const { qcm, erreur, load } = GetQcm()
     const search = ref('')
+    const loading = ref(true)
 
     const filtre = computed(() => {
       let lesTags = ''
@@ -52,14 +55,17 @@ export default {
       }
     })
 
-    load()
+    load().then(() => loading.value = false)
 
-    return { qcm, erreur, search, filtre }
+    return { qcm, erreur, loading, search, filtre }
   }
 }
 </script>
 
 <style scoped>
+h4 {
+  margin-top: 3em;
+}
 .search {
   margin-top: 1.5em;
 }
