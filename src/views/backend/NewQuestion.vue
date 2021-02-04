@@ -48,7 +48,7 @@
     <h4 class="red-text center-align">{{ erreur }}</h4>
   </div>
 
-  <Modal :type="'save'">Question Ajoutée</Modal>
+  <Modal :id="'std'" :type="'save'">Question Ajoutée</Modal>
 </div>
 </template>
 
@@ -102,7 +102,7 @@ setup () {
         }
       )
       loading.value = false
-      openModal()
+      openModal('std')
     } catch (err) {
       loading.value = false
       erreur.value = err.message
