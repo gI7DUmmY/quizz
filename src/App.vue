@@ -37,4 +37,10 @@
   height: 56px;
   margin-top: 4px;
 }
+@media screen and (max-width: 600px) {
+  .brand-logo img {
+    height: 48px;
+    margin-top: 4px;
+  }
+}
 </style>

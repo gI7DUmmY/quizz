@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div id="titre" class="container">
     <h1 class="center-align">Backend</h1>
     <router-link :to="{ name: 'NewQuestion' }" class="btn-small">
       <i class="material-icons left">add</i>Question
@@ -20,6 +20,16 @@
     <h4 v-if="qcm.length === 0" class="center-align">Il n'y a pas encore de question !</h4>
 
     <div v-if="erreur">{{ erreur }}</div>
+  
+  </div>
+
+  <div id="goTop">
+    <a
+      class="btn-floating btn waves-effect waves-light blue right"
+      href="#titre"
+    >
+      <i class="material-icons">arrow_upward</i>
+    </a>
   </div>
 </template>
 
@@ -63,10 +73,18 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  margin-bottom: 5em;
+}
 h4 {
   margin-top: 3em;
 }
 .search {
   margin-top: 1.5em;
+}
+#goTop {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
 }
 </style>
