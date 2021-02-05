@@ -1,5 +1,5 @@
 <template>
-  <div id="titre" class="container">
+  <div class="container">
     <h1 class="center-align">Backend</h1>
     <router-link :to="{ name: 'NewQuestion' }" class="btn-small">
       <i class="material-icons left">add</i>Question
@@ -26,7 +26,7 @@
   <div id="goTop">
     <a
       class="btn-floating btn waves-effect waves-light blue right"
-      href="#titre"
+      @click="scrollTop"
     >
       <i class="material-icons">arrow_upward</i>
     </a>
@@ -46,6 +46,13 @@ export default {
     const { qcm, erreur, load } = GetQcm()
     const search = ref('')
     const loading = ref(true)
+
+    const scrollTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }
 
     const filtre = computed(() => {
       let lesTags = ''
@@ -67,7 +74,7 @@ export default {
 
     load().then(() => loading.value = false)
 
-    return { qcm, erreur, loading, search, filtre }
+    return { qcm, erreur, loading, search, filtre, scrollTop }
   }
 }
 </script>

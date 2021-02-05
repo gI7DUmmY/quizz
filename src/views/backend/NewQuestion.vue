@@ -13,19 +13,19 @@
       <div class="row">
         <div class="entete">Les choix :</div>
         <div class="row grey-text text-lighten-1" id="colonne">
-          <span class="col s9">texte</span>
+          <span class="col s7">texte</span>
           <span class="col s1 offset-s1">note</span>
         </div>
         <div v-for="(rep, index) in question.choix" :key="index" class="input-field col s12">
           <div class="row">
-            <input type="text" required v-model="rep.texte" class="col s9" @keydown.enter.prevent="">
+            <input type="text" required v-model="rep.texte" class="col s7" @keydown.enter.prevent="">
             <input type="number" required v-model="rep.note" step="1" class="col s1 offset-s1" @keydown.enter.prevent="">
             <button
               class="btn-floating corbeille btn-small red"
               @click.prevent="remChoice(rep.id)"
               :class="{ disabled: question.choix.length < 3 }"
             >
-              <i class="material-icons">delete</i>
+              <i class="material-icons">remove_circle_outline</i>
             </button>
           </div>
         </div>
@@ -35,9 +35,12 @@
 
       </div>
       <Tags id="tags" :tags="question.tags" @updateTags="updateTags" />
-      <button type="submit" class="btn">
-        <i class="material-icons left">save</i>Enregistrer
-      </button>
+
+      <div class="row actions">
+        <button type="submit" class="btn col s6 offset-s3 m4 offset-m4">
+          <i class="material-icons left">save</i>Enregistrer
+        </button>
+      </div>
     </form>
   </div>
   <div v-else>
@@ -133,26 +136,23 @@ setup () {
   padding: 0px;
 }
 .entete {
-  margin-bottom: 1em;
+  margin-bottom: 0px;
   font-weight: bold;
 }
 #colonne {
   margin-top: 1em;
   margin-bottom: 0px;
 }
-button[type="submit"] {
-  display: block;
-  margin-top: 2em;
-  margin-right: auto;
-  margin-left: auto;
-}
 .corbeille {
-  margin-left: 1.5em;
+  margin-left: 3em;
 }
 #tags {
   margin-top: 1.5em;
 }
 .input-field {
   margin-top: 0px;
+}
+.actions button {
+  margin-top: 2em;
 }
 </style>
