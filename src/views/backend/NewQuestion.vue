@@ -61,6 +61,7 @@ import Tags from '@/components/Tags.vue'
 import Preloader from '@/components/Preloader.vue'
 import Modal from '@/components/Modal.vue'
 import openModal from '@/composables/openModal'
+import { db } from '../../firebase/config'
 
 export default {
 name: 'NewQuestion',
@@ -95,22 +96,11 @@ setup () {
     question.value.choix.forEach(rep => {
       rep.note = parseInt(rep.note)
     })
-    try {
-      await fetch('http://localhost:3000/quizz/',
-        {
-          method: "POST",
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json;charset=utf-8' },
-          body: JSON.stringify(question.value)
-        }
-      )
-      loading.value = false
-      openModal('std')
-    } catch (err) {
-      loading.value = false
-      erreur.value = err.message
-      console.log(err.message)
-    }
+
+    await db.collection('quizz').add(question.value)
+
+    loading.value = false
+    openModal('std')
     question.value = {
       sujet: '',
       choix: [
