@@ -1,4 +1,5 @@
 import { ref } from "vue"
+import { db } from '../firebase/config'
 
 const GetQcm = () => {
   const qcm = ref([])
@@ -6,11 +7,11 @@ const GetQcm = () => {
 
   const load = async () => {
     try {
-      let data = await fetch("http://localhost:3000/quizz")
-      if (!data.ok) {
-        throw Error('Problème de fetch')
-      }
-      qcm.value = await data.json()
+      const res = await db.collection('quizz').get()
+
+      qcm.value = res.docs.map(doc => {
+        return { ...doc.data(), id: doc.id }
+      })
     } catch (err) {
       erreur.value = err.message
       console.log(erreur.value)
