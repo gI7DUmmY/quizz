@@ -1,4 +1,5 @@
 import { ref } from "vue"
+import { db } from '../firebase/config'
 
 const GetQuestion = (id) => {
   const question = ref(null)
@@ -6,11 +7,11 @@ const GetQuestion = (id) => {
 
   const load = async () => {
     try {
-      let data = await fetch("http://localhost:3000/quizz/" + id)
-      if (!data.ok) {
-        throw Error('Problème de fetch')
-      }
-      question.value = await data.json()
+      const res = await db.collection('quizz').doc(id).get()
+
+      if (!res.exists) throw Error('Question introuvable')
+
+      question.value = { ...res.data(), id: res.id }
     } catch (err) {
       erreur.value = err.message
       console.log(erreur.value)
