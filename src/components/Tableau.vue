@@ -3,7 +3,7 @@
   <table class="highlight">
     <thead>
       <tr>
-        <th>N°</th>
+        <th>ID</th>
         <th>Sujet</th>
         <th class="right-align">Tags</th>
       </tr>
@@ -11,10 +11,9 @@
     <tbody>
       <tr
         v-for="(question, index) in qcm" :key="index"
-        @click="GoDetails(question.id)"
       >
-        <td class="num">#{{ question.id }}</td>
-        <td>
+        <td @click="GoDetails(question.id)" class="num">{{ question.id }}</td>
+        <td @click="GoDetails(question.id)">
           {{ question.sujet.slice(0,100) }}
           <span v-if="question.sujet.length > 99">...</span>
         </td>
@@ -24,6 +23,7 @@
             :key="index"
             class="tag"
             :class="{ match: matched(tag) }"
+            @click="searchTag(tag)"
           >
             #{{ tag }}
           </div>
@@ -38,17 +38,22 @@ import { useRouter } from 'vue-router'
 
 export default {
   props: [ 'qcm', 'search' ],
-  setup (props) {
+  emits: [ 'searchTag' ],
+  setup (props, { emit }) {
     const router  = new useRouter
     const matched = (tag) => tag.includes(props.search)
     const GoDetails = (id) => router.push({ name: 'Details', params: { id } })
+    const searchTag = (tag) => emit('searchTag', tag)
 
-    return { matched, GoDetails }
+    return { matched, GoDetails, searchTag }
   }
 }
 </script>
 
 <style scoped>
+tbody tr {
+  cursor: pointer;
+}
 .tag{
   display: inline-block;
   margin-left: 0.3em;

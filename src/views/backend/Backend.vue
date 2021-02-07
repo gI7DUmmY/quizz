@@ -10,7 +10,7 @@
         <input id="tag" type="text" placeholder="#Tag" v-model="search">
       </div>
 
-      <Tableau :qcm="filtre" :search="search" />
+      <Tableau :qcm="filtre" :search="search" @searchTag="searchTag" />
     </div>
 
     <div v-if="loading">
@@ -54,6 +54,8 @@ export default {
       })
     }
 
+    const searchTag = (tag) => search.value = tag
+
     const filtre = computed(() => {
       let lesTags = ''
 
@@ -74,7 +76,7 @@ export default {
 
     load().then(() => loading.value = false)
 
-    return { qcm, erreur, loading, search, filtre, scrollTop }
+    return { qcm, erreur, loading, search, filtre, scrollTop, searchTag }
   }
 }
 </script>
