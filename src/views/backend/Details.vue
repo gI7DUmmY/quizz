@@ -64,6 +64,7 @@ import GetQuestion from '@/composables/GetQuestion'
 import Tags from '@/components/Tags.vue'
 import Modal from  '@/components/Modal.vue'
 import openModal from '@/composables/openModal'
+import { db } from '../../firebase/config'
 
 export default {
   name: 'Details',
@@ -118,19 +119,10 @@ export default {
     const suppr = async () => {
       titreModal.value = 'Question supprimée'
       typeModal.value = 'suppr'
-      try {
-        await fetch('http://localhost:3000/quizz/' + props.id,
-          {
-            method: "DELETE",
-            mode: 'cors',
-            headers: { 'Content-Type': 'application/json;charset=utf-8' },
-          }
-        )
-        setTimeout(() => openModal('suppr'), 500)
-      } catch (err) {
-        erreur.value = err.message
-        console.log(err.message)
-      }
+
+      await db.collection('quizz').doc(props.id).delete()
+
+      setTimeout(() => openModal('suppr'), 500)
     }
 
     load()
