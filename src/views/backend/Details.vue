@@ -94,20 +94,15 @@ export default {
       question.value.choix.forEach(rep => {
         rep.note = parseInt(rep.note)
       })
-      try {
-        await fetch('http://localhost:3000/quizz/' + props.id,
-          {
-            method: "PATCH",
-            mode: 'cors',
-            headers: { 'Content-Type': 'application/json;charset=utf-8' },
-            body: JSON.stringify(question.value)
-          }
-        )
-        openModal('std')
-      } catch (err) {
-        erreur.value = err.message
-        console.log(err.message)
+
+      const data = {
+        sujet: question.value.sujet,
+        choix: question.value.choix,
+        tags: question.value.tags
       }
+      await db.collection('quizz').doc(props.id).set(data)
+
+      openModal('std')
     }
 
     const confirmSuppr = () => {
