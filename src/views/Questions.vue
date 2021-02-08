@@ -69,6 +69,7 @@
 <script>
 import Preloader from '../components/Preloader.vue'
 import Resultat from '../components/Resultat.vue'
+import GetQcm from '../composables/GetQcm'
 
 export default {
   name: 'Questions',
@@ -124,22 +125,22 @@ export default {
     }
   },
   mounted () {
-    fetch("http://localhost:3000/quizz")
-      .then(res => res.json())
-      .then(data => {
-        this.qcm = data
-        let i = 0
-        let random = Math.floor(Math.random() * Math.floor(this.qcm.length))
+    const { qcm, erreur, load } = GetQcm()
+    load().then(() => {
+      this.qcm = qcm
+      this.erreur = erreur
 
-        do {
-          if(!this.randQuizz.includes(this.qcm[random])) {
-            this.randQuizz.push(this.qcm[random])
-            i++
-          }
-          random = Math.floor(Math.random() * Math.floor(this.qcm.length))
-        } while (i < this.qtte)
-      })
-      .catch(err => this.erreur = err.message)
+      let i = 0
+      let random = Math.floor(Math.random() * Math.floor(this.qcm.length))
+
+      do {
+        if(!this.randQuizz.includes(this.qcm[random])) {
+          this.randQuizz.push(this.qcm[random])
+          i++
+        }
+        random = Math.floor(Math.random() * Math.floor(this.qcm.length))
+      } while (i < this.qtte)
+    })
   },
   computed: {
     total () {

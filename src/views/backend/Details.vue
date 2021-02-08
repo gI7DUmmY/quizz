@@ -89,17 +89,23 @@ export default {
     }
 
     const save = async () => {
+      let lignes = []
+      let sujet = ''
       titreModal.value = 'Modifications Enregistrées'
       typeModal.value = 'save'
       question.value.choix.forEach(rep => {
         rep.note = parseInt(rep.note)
       })
+      lignes = question.value.sujet.split('\n')
+      lignes.forEach(el => sujet += '\n' + el)
+      sujet = sujet.trim()
 
       const data = {
-        sujet: question.value.sujet,
+        sujet: sujet,
         choix: question.value.choix,
         tags: question.value.tags
       }
+
       await db.collection('quizz').doc(props.id).set(data)
 
       openModal('std')
