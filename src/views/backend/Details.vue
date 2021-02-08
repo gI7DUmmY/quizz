@@ -35,7 +35,7 @@
 
       </div>
 
-      <Tags id="tags" :tags="question.tags" @updateTags="updateTags" />
+      <Tags id="tags" :tags="question.tags" @addTag="addTag" @remTag="remTag" />
 
       <div class="row actions">
         <button class="btn red col s6 offset-s3 m3 offset-m2" @click.prevent="confirmSuppr">
@@ -76,7 +76,16 @@ export default {
     const typeModal = ref(null)
     const router = new useRouter
 
-    const updateTags = (payload) => question.value.tags = payload
+    const addTag = (newTag) => {
+      if (!question.value.tags.includes(newTag)) {
+        newTag = newTag.replace(/\s/g,'') // remove all whitespace
+        question.value.tags.push(newTag)
+      }
+    }
+
+    const remTag = (tag) => {
+      question.value.tags = question.value.tags.filter(el => el !== tag)
+    }
 
     const addChoice = () => {
       const uid = new Date
@@ -135,7 +144,7 @@ export default {
       M.Modal.init(supprModal, { onCloseEnd: () => router.push({ name: 'Backend' }) })
     })
 
-    return { question, erreur, updateTags, save, addChoice, remChoice, titreModal, typeModal, confirmSuppr, suppr }
+    return { question, erreur, addTag, remTag, save, addChoice, remChoice, titreModal, typeModal, confirmSuppr, suppr }
   }
 }
 </script>

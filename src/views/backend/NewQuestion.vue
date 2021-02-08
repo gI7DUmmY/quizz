@@ -34,7 +34,7 @@
         </button>
 
       </div>
-      <Tags id="tags" :tags="question.tags" @updateTags="updateTags" />
+      <Tags id="tags" :tags="question.tags" @addTag="addTag" @remTag="remTag" />
 
       <div class="row actions">
         <button type="submit" class="btn col s6 offset-s3 m4 offset-m4">
@@ -89,13 +89,27 @@ setup () {
     if (question.value.choix.length > 2) question.value.choix = question.value.choix.filter(el => el.id !== id)
   }
 
-  const updateTags = (payload) => question.value.tags = payload
+  const addTag = (newTag) => {
+    if (!question.value.tags.includes(newTag)) {
+      newTag = newTag.replace(/\s/g,'') // remove all whitespace
+      question.value.tags.push(newTag)
+    }
+  }
+
+  const remTag = (tag) => {
+    question.value.tags = question.value.tags.filter(el => el !== tag)
+  }
 
   const save = async () => {
+    let lignes = []
+    let sujet = ''
     loading.value = true
     question.value.choix.forEach(rep => {
       rep.note = parseInt(rep.note)
     })
+    lignes = question.value.sujet.split('\n')
+    lignes.forEach(el => sujet += '\n' + el)
+    question.value.sujet = sujet.trim()
 
     await db.collection('quizz').add(question.value)
 
@@ -116,7 +130,7 @@ setup () {
     M.Modal.init(elems);
   })
 
-  return { question, addChoice, remChoice, updateTags, save, loading, erreur }
+  return { question, addChoice, remChoice, save, loading, erreur, addTag, remTag }
 }
 }
 </script>
