@@ -151,6 +151,7 @@ export default {
 
 <style scoped>
 #sujet {
+  margin-top: 0.5em;
   padding: 0px;
 }
 .entete {
