@@ -61,7 +61,7 @@ import Tags from '@/components/Tags.vue'
 import Preloader from '@/components/Preloader.vue'
 import Modal from '@/components/Modal.vue'
 import openModal from '@/composables/openModal'
-import { db } from '../../firebase/config'
+import { db, timestamp } from '../../firebase/config'
 
 export default {
 name: 'NewQuestion',
@@ -73,7 +73,8 @@ setup () {
       { id: 0, texte: '', note: null },
       { id: 1, texte: '', note: null }
     ],
-    tags: []
+    tags: [],
+    createdAt: null
   })
 
   const loading = ref(false)
@@ -110,6 +111,7 @@ setup () {
     lignes = question.value.sujet.split('\n')
     lignes.forEach(el => sujet += '\n' + el)
     question.value.sujet = sujet.trim()
+    question.value.createdAt = timestamp()
 
     await db.collection('quizz').add(question.value)
 

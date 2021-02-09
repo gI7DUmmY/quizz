@@ -7,7 +7,7 @@ const GetQcm = () => {
 
   const load = async () => {
     try {
-      const res = await db.collection('quizz').get()
+      const res = await db.collection('quizz').orderBy('createdAt', 'desc').get()
 
       qcm.value = res.docs.map(doc => {
         return { ...doc.data(), id: doc.id }
