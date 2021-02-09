@@ -64,7 +64,7 @@ import GetQuestion from '@/composables/GetQuestion'
 import Tags from '@/components/Tags.vue'
 import Modal from  '@/components/Modal.vue'
 import openModal from '@/composables/openModal'
-import { db } from '../../firebase/config'
+import { db, timestamp } from '../../firebase/config'
 
 export default {
   name: 'Details',
@@ -112,7 +112,8 @@ export default {
       const data = {
         sujet: sujet,
         choix: question.value.choix,
-        tags: question.value.tags
+        tags: question.value.tags,
+        createdAt: timestamp()
       }
 
       await db.collection('quizz').doc(props.id).set(data)

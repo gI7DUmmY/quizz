@@ -6,16 +6,14 @@ const GetQcm = () => {
   const erreur = ref(null)
 
   const load = async () => {
-    try {
-      const res = await db.collection('quizz').orderBy('createdAt', 'desc').get()
-
-      qcm.value = res.docs.map(doc => {
-        return { ...doc.data(), id: doc.id }
-      })
-    } catch (err) {
-      erreur.value = err.message
-      console.log(erreur.value)
-    }
+    db.collection('quizz')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(snap => {
+        let database = snap.docs.map(doc => {
+          return { ...doc.data(), id: doc.id }
+        })
+        qcm.value = database
+      }), (err) => erreur.value = err
   }
 
   return { qcm, erreur, load }
