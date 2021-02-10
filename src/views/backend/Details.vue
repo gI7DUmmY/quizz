@@ -113,10 +113,9 @@ export default {
         sujet: sujet,
         choix: question.value.choix,
         tags: question.value.tags,
-        createdAt: timestamp()
       }
 
-      await db.collection('quizz').doc(props.id).set(data)
+      await db.collection('quizz').doc(props.id).update(data)
 
       openModal('std')
     }
