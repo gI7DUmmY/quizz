@@ -12,6 +12,11 @@
             </router-link>
           </li>
           <li class="right">
+            <router-link :to="{ name: 'Login' }">
+              <i class="material-icons left">lock</i>Connexion
+            </router-link>
+          </li>
+          <li class="right">
             <router-link :to="{ name: 'Backend' }">
               <i class="material-icons left">build</i>Backend
             </router-link>
