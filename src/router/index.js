@@ -8,6 +8,7 @@ import NewQuestion from '../views/backend/NewQuestion.vue'
 import NotFound from '../views/NotFound.vue'
 import { projectAuth } from '../firebase/config'
 
+// Auth Guard
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser
   console.log('current user in auth guard: ' + user)
