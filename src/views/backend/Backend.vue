@@ -1,5 +1,9 @@
 <template>
   <div class="container">
+    <div>
+      <button class="btn-small" @click="deconnecter">Déconnecter</button>
+      <div>{{ logoutError }}</div>
+    </div>
     <h1 class="center-align">Backend</h1>
     <router-link :to="{ name: 'NewQuestion' }" class="btn-small">
       <i class="material-icons left">add</i>Question
@@ -38,12 +42,14 @@ import { ref, computed } from 'vue'
 import GetQcm from '@/composables/GetQcm'
 import Tableau from  '@/components/Tableau.vue'
 import Preloader from '@/components/Preloader.vue'
+import useLogout from '../../composables/useLogout'
 
 export default {
   name: 'Backend',
   components: { Tableau, Preloader },
   setup () {
     const { qcm, erreur, load } = GetQcm()
+    const { logoutError, logout } = useLogout()
     const search = ref('')
     const loading = ref(true)
 
@@ -55,6 +61,12 @@ export default {
     }
 
     const searchTag = (tag) => search.value = tag
+
+    const deconnecter = async () => {
+      await logout()
+
+      if (!logoutError.value) console.log('Déconnexion OK')
+    }
 
     const filtre = computed(() => {
       let lesTags = ''
@@ -76,7 +88,7 @@ export default {
 
     load().then(() => loading.value = false)
 
-    return { qcm, erreur, loading, search, filtre, scrollTop, searchTag }
+    return { qcm, erreur, loading, search, filtre, scrollTop, searchTag, deconnecter, logoutError }
   }
 }
 </script>
