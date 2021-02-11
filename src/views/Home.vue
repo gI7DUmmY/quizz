@@ -41,7 +41,7 @@ export default {
       return Math.round(qtte.value)
     })
     const submit = () => {
-      router.push({ name: 'Questions', params: { qtte: num.value }})
+      router.push({ name: 'Questions2', params: { qtte: num.value }})
     }
 
     load().then(() => loading.value = false)
