@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import GetQcm from '@/composables/GetQcm'
 import Tableau from  '@/components/Tableau.vue'
 import Preloader from '@/components/Preloader.vue'
@@ -58,7 +58,7 @@ export default {
     const { qcm, erreur, load } = GetQcm()
     const { logoutError, logout } = useLogout()
     const { user } = getUser()
-    const router = new useRouter
+    const router = useRouter()
     const search = ref('')
     const loading = ref(true)
 
@@ -76,9 +76,12 @@ export default {
 
       if (!logoutError.value) {
         console.log('Déconnexion OK')
-        router.push({ name: 'Login' })
       }
     }
+
+    watch(user, () => {
+      if (!user.value) router.push({ name: 'Login' })
+    })
 
     const filtre = computed(() => {
       let lesTags = ''

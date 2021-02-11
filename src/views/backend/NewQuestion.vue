@@ -56,17 +56,22 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import Tags from '@/components/Tags.vue'
 import Preloader from '@/components/Preloader.vue'
 import Modal from '@/components/Modal.vue'
 import openModal from '@/composables/openModal'
 import { db, timestamp } from '../../firebase/config'
+import getUser from '@/composables/getUser'
+import { useRouter } from 'vue-router'
 
 export default {
 name: 'NewQuestion',
 components: { Tags, Preloader, Modal },
 setup () {
+  const router = useRouter()
+  const { user } = getUser()
+
   const question = ref({
     sujet: '',
     choix: [
@@ -130,6 +135,10 @@ setup () {
   onMounted(() => {
     const elems = document.querySelectorAll('.modal');
     M.Modal.init(elems);
+  })
+
+  watch(user, () => {
+    if (!user.value) router.push({ name: 'Login' })
   })
 
   return { question, addChoice, remChoice, save, loading, erreur, addTag, remTag }

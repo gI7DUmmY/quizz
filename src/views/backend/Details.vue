@@ -58,13 +58,14 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import GetQuestion from '@/composables/GetQuestion'
 import Tags from '@/components/Tags.vue'
 import Modal from  '@/components/Modal.vue'
 import openModal from '@/composables/openModal'
-import { db, timestamp } from '../../firebase/config'
+import { db } from '../../firebase/config'
+import getUser from '@/composables/getUser'
 
 export default {
   name: 'Details',
@@ -74,7 +75,8 @@ export default {
     const { question, erreur, load } = GetQuestion(props.id)
     const titreModal = ref(null)
     const typeModal = ref(null)
-    const router = new useRouter
+    const router = useRouter()
+    const { user } = getUser()
 
     const addTag = (newTag) => {
       if (!question.value.tags.includes(newTag)) {
@@ -134,6 +136,10 @@ export default {
 
       setTimeout(() => openModal('suppr'), 500)
     }
+
+    watch(user, () => {
+      if (!user.value) router.push({ name: 'Login' })
+    })
 
     load()
 
