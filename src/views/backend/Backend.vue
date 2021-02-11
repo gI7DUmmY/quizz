@@ -1,7 +1,12 @@
 <template>
   <div class="container">
     <div>
-      <button class="btn-small" @click="deconnecter">Déconnecter</button>
+      <button
+        class="btn-small"
+        @click="deconnecter"
+        v-if="user"
+      >Déconnecter {{ user.email }}
+      </button>
       <div>{{ logoutError }}</div>
     </div>
     <h1 class="center-align">Backend</h1>
@@ -43,6 +48,7 @@ import GetQcm from '@/composables/GetQcm'
 import Tableau from  '@/components/Tableau.vue'
 import Preloader from '@/components/Preloader.vue'
 import useLogout from '../../composables/useLogout'
+import getUser from '../../composables/getUser'
 
 export default {
   name: 'Backend',
@@ -50,6 +56,7 @@ export default {
   setup () {
     const { qcm, erreur, load } = GetQcm()
     const { logoutError, logout } = useLogout()
+    const { user } = getUser()
     const search = ref('')
     const loading = ref(true)
 
@@ -88,7 +95,7 @@ export default {
 
     load().then(() => loading.value = false)
 
-    return { qcm, erreur, loading, search, filtre, scrollTop, searchTag, deconnecter, logoutError }
+    return { qcm, erreur, loading, search, filtre, scrollTop, searchTag, deconnecter, logoutError, user }
   }
 }
 </script>
