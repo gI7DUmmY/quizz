@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-// import Questions from '../views/Questions.vue'
-import Questions2 from '../views/Questions2.vue'
+import Questions from '../views/Questions.vue'
 import Login from '../views/backend/Login.vue'
 import Backend from '../views/backend/Backend.vue'
 import Details from '../views/backend/Details.vue'
@@ -25,8 +24,8 @@ const routes = [
   },
   {
     path: '/qcm',
-    name: 'Questions2',
-    component: Questions2,
+    name: 'Questions',
+    component: Questions,
     props: true
   },
   {
