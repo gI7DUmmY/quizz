@@ -11,12 +11,15 @@
               <i class="material-icons left">home</i>Accueil
             </router-link>
           </li>
-          <li class="right">
+          <li v-if="user" @click="deconnecter" class="right">
+            <a><i class="material-icons left">lock_open</i>Déconnexion</a>
+          </li>
+          <li v-if="!user" class="right">
             <router-link :to="{ name: 'Login' }">
               <i class="material-icons left">lock</i>Connexion
             </router-link>
           </li>
-          <li class="right">
+          <li v-if="user" class="right">
             <router-link :to="{ name: 'Backend' }">
               <i class="material-icons left">build</i>Backend
             </router-link>
@@ -28,6 +31,28 @@
 
   <router-view />
 </template>
+
+<script>
+import getUser from './composables/getUser'
+import useLogout from './composables/useLogout'
+
+export default {
+  setup () {
+    const { user } = getUser()
+    const { logoutError, logout } = useLogout()
+    
+    const deconnecter = async () => {
+      await logout()
+
+      if (!logoutError.value) {
+        console.log('Déconnexion OK')
+      }
+    }
+
+    return { user, deconnecter }
+  }
+}
+</script>
 
 <style>
 @font-face {

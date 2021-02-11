@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2 class="center-align">Quizz du règlement</h2>
-    <form @submit.prevent="submit" v-if="qcm">
+    <form @submit.prevent="submit" v-if="!loading">
       <h4 class="center-align">Choisissez les réglages</h4>
       <div class="center-align">
       <label>Nombre de Questions (de 1 à {{ qcm.length }})</label>
@@ -34,7 +34,8 @@ export default {
   setup () {
     const { qcm, erreur, load } = GetQcm()
     const qtte = ref(1)
-    const router = new useRouter
+    const router = useRouter()
+    const loading = ref(true)
 
     const num = computed (() => {
       return Math.round(qtte.value)
@@ -43,9 +44,9 @@ export default {
       router.push({ name: 'Questions', params: { qtte: num.value }})
     }
 
-    load()
+    load().then(() => loading.value = false)
 
-    return { qcm, erreur, qtte, num, submit }
+    return { qcm, erreur, qtte, num, submit, loading }
   }
 }
 </script>

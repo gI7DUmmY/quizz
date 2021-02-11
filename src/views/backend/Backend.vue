@@ -1,14 +1,5 @@
 <template>
   <div class="container">
-    <div>
-      <button
-        class="btn-small"
-        @click="deconnecter"
-        v-if="user"
-      >Déconnecter {{ user.email }}
-      </button>
-      <div>{{ logoutError }}</div>
-    </div>
     <h1 class="center-align">Backend</h1>
     <router-link :to="{ name: 'NewQuestion' }" class="btn-small">
       <i class="material-icons left">add</i>Question
