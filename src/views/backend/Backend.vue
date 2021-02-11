@@ -49,6 +49,7 @@ import Tableau from  '@/components/Tableau.vue'
 import Preloader from '@/components/Preloader.vue'
 import useLogout from '../../composables/useLogout'
 import getUser from '../../composables/getUser'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'Backend',
@@ -57,6 +58,7 @@ export default {
     const { qcm, erreur, load } = GetQcm()
     const { logoutError, logout } = useLogout()
     const { user } = getUser()
+    const router = new useRouter
     const search = ref('')
     const loading = ref(true)
 
@@ -72,7 +74,10 @@ export default {
     const deconnecter = async () => {
       await logout()
 
-      if (!logoutError.value) console.log('Déconnexion OK')
+      if (!logoutError.value) {
+        console.log('Déconnexion OK')
+        router.push({ name: 'Login' })
+      }
     }
 
     const filtre = computed(() => {

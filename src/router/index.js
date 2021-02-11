@@ -6,6 +6,14 @@ import Backend from '../views/backend/Backend.vue'
 import Details from '../views/backend/Details.vue'
 import NewQuestion from '../views/backend/NewQuestion.vue'
 import NotFound from '../views/NotFound.vue'
+import { projectAuth } from '../firebase/config'
+
+const requireAuth = (to, from, next) => {
+  let user = projectAuth.currentUser
+  console.log('current user in auth guard: ' + user)
+
+  !user ? next({ name: 'Login' }) : next()
+}
 
 const routes = [
   {
@@ -22,28 +30,31 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login,
+    component: Login
   },
   {
     path: '/backend',
     name: 'Backend',
     component: Backend,
+    beforeEnter: requireAuth
   },
   {
     path: '/backend/:id',
     name: 'Details',
     component: Details,
-    props: true
+    props: true,
+    beforeEnter: requireAuth
   },
   {
     path: '/backend/ajouter',
     name: 'NewQuestion',
     component: NewQuestion,
+    beforeEnter: requireAuth
   },
   {
     path: '/:catchAll(.*)',
     name: 'NotFound',
-    component: NotFound,
+    component: NotFound
   }
 ]
 
