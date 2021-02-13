@@ -75,8 +75,8 @@ setup () {
   const question = ref({
     sujet: '',
     choix: [
-      { id: 0, texte: '', note: null },
-      { id: 1, texte: '', note: null }
+      { id: Date.now() + '0', texte: '', note: null },
+      { id: Date.now() + '1', texte: '', note: null }
     ],
     tags: [],
     createdAt: null
@@ -86,8 +86,7 @@ setup () {
   const erreur = ref(null)
 
   const addChoice = () => {
-    const uid = new Date
-    const newChoice = { id: Date.now(uid), texte: 'Nouveau choix', note: 0 }
+    const newChoice = { id: Date.now(), texte: 'Nouveau choix', note: 0 }
     question.value.choix.push(newChoice)
   }
 
@@ -125,8 +124,8 @@ setup () {
     question.value = {
       sujet: '',
       choix: [
-        { id: 0, texte: '', note: null },
-        { id: 1, texte: '', note: null }
+        { id: Date.now() + '0', texte: '', note: null },
+        { id: Date.now() + '1', texte: '', note: null }
       ],
       tags: []
     }

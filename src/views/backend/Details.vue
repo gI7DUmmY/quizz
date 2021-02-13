@@ -90,8 +90,7 @@ export default {
     }
 
     const addChoice = () => {
-      const uid = new Date
-      const newChoice = { id: Date.now(uid), texte: 'Nouveau choix', note: 0 }
+      const newChoice = { id: Date.now(), texte: 'Nouveau choix', note: 0 }
       question.value.choix.push(newChoice)
     }
 
