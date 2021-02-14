@@ -44,11 +44,9 @@ export default {
     const { erreur, login } = useLogin()
 
     const connecter = async () => {
-      const res = await login(email.value, pwd.value)
+      await login(email.value, pwd.value)
 
       if (!erreur.value) {
-        console.log('Connexion OK')
-        console.log(res)
         router.push({ name: 'Backend' })
       }
     }
