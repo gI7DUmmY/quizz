@@ -45,7 +45,7 @@ export default {
       await logout()
 
       if (!logoutError.value) {
-        console.log('Déconnexion OK')
+        // console.log('Déconnexion OK')
       }
     }
 
