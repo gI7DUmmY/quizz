@@ -12,16 +12,16 @@
             </router-link>
           </li>
           <li v-if="user" @click="deconnecter" class="right">
-            <a><i class="material-icons left">lock_open</i>Déconnexion</a>
+            <a><i class="material-icons left">lock_open</i><span class="hide-on-small-only">Déconnexion</span></a>
           </li>
           <li v-if="!user" class="right">
             <router-link :to="{ name: 'Login' }">
-              <i class="material-icons left">lock</i>Connexion
+              <i class="material-icons left">lock</i><span class="hide-on-small-only">Connexion</span>
             </router-link>
           </li>
           <li v-if="user" class="right">
             <router-link :to="{ name: 'Backend' }">
-              <i class="material-icons left">build</i>Backend
+              <i class="material-icons left">build</i><span class="hide-on-small-only">Backend</span>
             </router-link>
           </li>
         </ul>
